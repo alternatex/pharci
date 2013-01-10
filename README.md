@@ -96,8 +96,6 @@ Open browser: [http://localhost/spreadson/sources/custom/api/](http://localhost/
 Installation
 -------------
 
-» bazinga alike
-
 ### Prerequisites
 
 #### Core
@@ -111,8 +109,6 @@ Installation
 * NPM (https://npmjs.org/)
 
 **Configuration**
-
-* Bazinga (https://github.com/alternatex/bazinga)
 
 ### Setup
 
@@ -131,8 +127,6 @@ Development
 -------------
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
-
-_Note: Subject to change; all custom-tasks will be replaced/covered by grunt plugin **grunt-spreadson**._
 
 ```shell
 # run
