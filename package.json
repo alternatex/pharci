@@ -1,0 +1,30 @@
+{
+  "name": "phwarch",    
+  "version": "0.1.0",
+  "description": "PHP Development Utility: PHAR Auto-Updater",
+  "keywords": ["phar", "filesystem", "watch", "update", "auto"],
+  "homepage": "http://github.com/alternatex/phwarch",
+  "author": {
+    "name": "Gianni Furger",
+    "email": "gianni.furger@gmail.com",
+    "url": "http://github.com/alternatex/"
+  },
+  "bundle": "phwarch",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+      "node": ">=0.8.x",
+      "npm":  ">=1.1.x"
+  }, 
+  "dependencies": {
+      "bower": ">=0.0.0"
+  }
+}

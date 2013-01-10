@@ -1,0 +1,11 @@
+{
+  "name": "phwarch",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alternatex/phwarch.git"
+  },
+  "dependencies": {
+    "log4php": "git://git.apache.org/logging-log4php.git"
+  }
+}

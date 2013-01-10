@@ -1,0 +1,44 @@
+{
+  "name": "phwarch",    
+  "version": "0.1.0",
+  "description": "PHP Development Utility: PHAR Auto-Updater",
+  "keywords": ["phar", "filesystem", "watch", "update", "auto"],
+  "homepage": "http://github.com/alternatex/phwarch",
+  "type": "library",
+  "author": {
+    "name": "Gianni Furger",
+    "email": "gianni.furger@gmail.com",
+    "url": "http://github.com/alternatex/"
+  },
+  "minimum-stability": "dev",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+    }
+  ], 
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+          "name": "log4php",
+          "version": "0.0.1",
+          "dist": {
+              "url": "http://mirror.switch.ch/mirror/apache/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip",
+              "type": "zip"
+          },
+          "target-dir": "/"
+      }
+  }
+  ],
+  "require": {
+    "log4php": "0.0.*"
+  },     
+  "autoload": {
+    "psr-0": { "phwarch": "/" }
+  }  
+}
