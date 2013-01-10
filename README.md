@@ -13,12 +13,10 @@ just a readme. basta.
 
 create manifest o contents
 » md5 hashed
-
 » compare / update phar contents with that?!
 
 hmmm.
 
-- grunt-bower fix » update spreadson aswell * !!!
 - php-class phar-updates / mods XXX
 - automated-changes testscript (ini_set('max_execution_time', 0); sleep(XXX);)
 
@@ -98,17 +96,9 @@ Installation
 
 ### Prerequisites
 
-#### Core
-
 * PHP (http://php.net)
-
-#### Extensions
-
-**Development**
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
-
-**Configuration**
 
 ### Setup
 
@@ -130,7 +120,7 @@ Ensure php.ini includes `phar.readonly=Off` to enable creation and modification 
 
 ```shell
 # run
-bin/phwarch -XXX -YYY -ZZZ
+bin/phwarch --xxx=first_opt --yyy=second_opt --zzz=third_opt
 ```
 
 Roadmap
