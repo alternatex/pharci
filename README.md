@@ -3,14 +3,13 @@ PHARCI
 
 PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives
 
-Setup
------
-
-### Platform Support
+Supported Platforms
+-------------------
 
 Tested on Bodhi, Ubuntu and Debian.
 
-### Prerequisites
+Prerequisites
+-------------
 
 **Core**
 
@@ -28,7 +27,8 @@ TBD: autom installation!
 
 * Bazinga (https://github.com/alternatex/bazinga)
 
-### Installation
+Installation
+------------
 
 You can install this via the command line with either `curl` or `wget`.
 
@@ -40,17 +40,13 @@ via `wget`
 
 `wget --no-check-certificate https://github.com/alternatex/pharci/raw/master/install.sh -O - | sh`
 
-QuickStart
+Usage
 -------------
-
-###Development
 
 ```shell
 # run
 bin/pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
-```
 
-```shell
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
   while read FILE ; do
     php pharci.php $FILE "${out}"
