@@ -6,17 +6,18 @@ PHP development utility to automatically replicate/mirror filesystem changes int
 Prerequisites
 -------------
 
-**OS**
+### OS
 * Bodhi
 * Ubuntu
 * Debian
 
-**Core**
+### Core
 * PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
 
-**Configuration**<br/>
+### Configuration
+
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
 **Custom**
