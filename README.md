@@ -18,6 +18,10 @@ Tested on Bodhi, Ubuntu and Debian.
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
 
+**Configuration**
+
+Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
+
 **Custom**
 
 TBD: autom installation!
@@ -39,23 +43,18 @@ via `wget`
 QuickStart
 -------------
 
-###Unix - Inotifywatch
+###Development
+
+```shell
+# run
+bin/pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
+```
 
 ```shell
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
   while read FILE ; do
     php pharci.php $FILE "${out}"
   done
-```
-
-Development
--------------
-
-Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
-
-```shell
-# run
-bin/pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
 ```
 
 Roadmap
