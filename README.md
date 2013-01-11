@@ -1,30 +1,22 @@
 PHARCI
 =============
 
-PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives
+PHP development utility to mirror filesystem changes into PHAR-archives
 
 Prerequisites
 -------------
 
-### OS
-* Bodhi
-* Ubuntu
-* Debian
-
 ### Core
-* PHP (http://php.net)
-* Node (http://nodejs.org)
-* NPM (https://npmjs.org/)
+
+- Unix OS (Ubuntu/Bodhi/Debian/?)
+- PHP (http://php.net)
+- Node (http://nodejs.org)
+- NPM (https://npmjs.org/)
+- Bazinga (https://github.com/alternatex/bazinga)
 
 ### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
-
-**Custom**
-
-TBD: autom installation!
-
-* Bazinga (https://github.com/alternatex/bazinga)
 
 Installation
 ------------
@@ -43,8 +35,7 @@ Usage
 -------------
 
 ```shell
-# run
-bin/pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
+pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
 
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
   while read FILE ; do
@@ -54,6 +45,7 @@ inotifywait --recursive --monitor --quiet --event modify,create,delete,move --fo
 
 Roadmap
 -------------
+
 - Automated dependency inclusion (Bazinga, ...)
 - Automated tests
 - Manifest
