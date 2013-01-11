@@ -3,22 +3,18 @@ PHARCI
 
 PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives
 
-Supported Platforms
--------------------
-
-Tested on Bodhi, Ubuntu and Debian.
-
 Prerequisites
 -------------
 
-**Core**
+**OS**<br/>* Bodhi
+* Ubuntu
+* Debian
 
-* PHP (http://php.net)
+**Core**<br/>* PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
 
-**Configuration**
-
+**Configuration**<br/>
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
 **Custom**
