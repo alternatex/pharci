@@ -4,15 +4,16 @@
 echo "bazinga installed? if not - install - shout out loud!"
 
 # curl or wget check ?!
+echo "curl or wget check ?!"
 
 # configuration
 targetdir="~/.phwarch"
 
 # go home
-cd ~
+#cd ~
 
 # fetch sources
-git clone https://github.com/alternatex/phwarch.git "${targetdir}" && cd "${targetdir}"
+#git clone https://github.com/alternatex/phwarch.git "${targetdir}" && cd "${targetdir}"
 
 # install node deps
 npm install
@@ -23,12 +24,12 @@ bower install
 # shell configuration file (TODO: combine with $SHELL environment variable)
 shellcfg=""
 
-# BASH
+# bash
 if [ -f ~/.bashrc ]; then 
 	shellcfg="$HOME/.bashrc"
 fi
 
-# ZSH
+# zsh
 if [ -f ~/.zshrc ]; then 
 	shellcfg="$HOME/.zshrc"
 fi
@@ -43,8 +44,9 @@ echo "# phwarch" >> $shellcfg
 echo "export PATH=~/.phwarch/bin:$PATH" >> $shellcfg
 
 # check whether inotifywatch available or OSX if not: cancel install... shout out loud
-
-# store method (inotifywatch/php-loop)
+echo "prerequisites check - inotify?"
+echo "prerequisites check - macosx?"
+echo "store method (inotifywatch/php-loop)"
 
 # make executable
 chmod a+x "${targetdir}/src/cli.php"

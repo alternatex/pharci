@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # remember the roots
 export currentpath="`pwd`"
