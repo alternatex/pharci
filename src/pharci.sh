@@ -39,7 +39,7 @@ function bazinga_edit() {
 printf "\e[1;31m"
 echo "
 -------------------------------
---- ★  PHWARCH - v.1.0.0 ★  ---
+--- ★  PHARCI - v.1.0.0 ★  ---
 -------------------------------"
 printf "\e[0m"
 
@@ -52,13 +52,13 @@ cd $currentpath
 # first execution - clean environment?
 if [ ! -d $bazinga_directory ]; then	
 
-	# create custom directory for phwarch configuration
-	echo "Creating new phwarch connection in directory `pwd`"
+	# create custom directory for pharci configuration
+	echo "Creating new pharci connection in directory `pwd`"
 	mkdir $bazinga_directory
 fi
 
 # edit configuration?
-if [ -f ".phwarchx/settings.sh" ]; then	
+if [ -f ".pharcix/settings.sh" ]; then	
 	echo ""
 	read -p "Configure? («Y» to edit or any key to skip)"
         ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ])  && bazinga_edit
@@ -67,7 +67,7 @@ else
 fi
 
 # include custom configuration to feed tunnelx 
-source .phwarchx/settings.sh && rm -rf .phwarchx/settings.sh.tmp
+source .pharcix/settings.sh && rm -rf .pharcix/settings.sh.tmp
 
 # shout out loud
 text "listen on:"
@@ -95,11 +95,11 @@ text "`ssh -N -L $tunnelx_local_port:$tunnelx_remote_internal_host:$tunnelx_remo
 printf "\e[0m"
 
 # configure
-watchdir="$phwarch_directory"
+watchdir="$pharci_directory"
 format='-d "%w" -f "%f" -e "%e"'
 
 # watch directory / dispatch events / exec phar update
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format "${format}" "${watchdir}" | 
 while read FILE ; do    	
-	./Phwarch/phwarch-cli.php $FILE
+	./PHARCI/pharci-cli.php $FILE
 done
