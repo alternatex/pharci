@@ -1,38 +1,37 @@
 Phwarch
 =============
 
-PHP Development Utility: PHAR Auto-Updater
+A PHP development utility to automatically update PHAR archives by watching filesystem changes
 
-TODO: 
+Setup
+-----
 
-phwarch as shell script only
+### Platform Support
 
-» direct script-pass in
+Tested on Debian, Ubuntu and MacOSX.
 
-just a readme. basta.
+### Prerequisites
 
-create manifest o contents
-» md5 hashed
-» compare / update phar contents with that?!
+* PHP (http://php.net)
+* Node (http://nodejs.org)
+* NPM (https://npmjs.org/)
 
-hmmm.
+### Installation
 
-- php-class phar-updates / mods XXX
-- automated-changes testscript (ini_set('max_execution_time', 0); sleep(XXX);)
+You can install this via the command line with either `curl` or `wget`.
+
+via `curl`
+
+`curl -L https://github.com/alternatex/bazinga/raw/master/install.sh | sh`
+
+via `wget`
+
+`wget --no-check-certificate https://github.com/alternatex/bazinga/raw/master/install.sh -O - | sh`
 
 QuickStart
 -------------
 
-###Unix - Inotifywatch###
-
-```shell
-inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
-  while read FILE ; do
-    php -r "echo '${FILE} ${out}';" 
-  done
-```
-
-###Unix - Inotifywatch###
+###Unix - Inotifywatch
 
 ```shell
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
@@ -41,76 +40,42 @@ inotifywait --recursive --monitor --quiet --event modify,create,delete,move --fo
   done
 ```
 
+###/MacOsx - Launchd
 
-###*/MacOsx - Shebang###
+#### Configure
 
-chmod a+x src/cli.php
+~/Library/LaunchAgents/phwarch.plist
 
-**src/cli.php**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+ <string>logger</string>
+ <key>ProgramArguments</key>
+ <array>
+  <string>/usr/bin/logger</string>
+  <string>path modified</string>
+ </array>
+ <key>WatchPaths</key>
+ <array>
+  <string>/Users/sakra/Desktop/</string>
+ </array>
+</dict>
+</plist>
+```
+
+#### Activate
 
 ```shell
-#!/usr/bin/php
-/*!
-* ------------------------------------------------------------------               
-* Phwarch
-*
-* PHP Development Utility: PHAR Auto-Updater
-*
-* Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
-* 
-* https://raw.github.com/alternatex/phwarch/master/LICENSE
-*
-* ------------------------------------------------------------------ 
-*/
- <?php include('phwarch.php');
+launchctl load ~/Library/LaunchAgents/phwarch.plist
 ```
 
-Phwarch usage example based on [tests](https://github.com/alternatex/phwarch/tests/index.php)
+#### Deactivate
 
-**Configuration**
-
-...
-
-**Validation**
-
-...
-
-[Sample spreadsheet](https://docs.google.com/spreadsheet/pub?key=0ApqLhg-Pef8pdG9DWmRnTzRWdzQ5MHNEdjBYT3RzZnc&single=true&gid=0&output=html)
-
-### Fetch Google Docs Spreadsheet
-
-__See:__ [sources/custom/api/](http://localhost/spreadson/sources/custom/api/)
-
-```php
-// include core
-require_once('../../../builds/spreadson.core.phar');
-
-// pass-through
-Spreadson('spreadsheet://0ApqLhg-Pef8pdG9DWmRnTzRWdzQ5MHNEdjBYT3RzZnc', true, 'Person');
-```
-
-Open browser: [http://localhost/spreadson/sources/custom/api/](http://localhost/spreadson/sources/custom/api/)
-
-Installation
--------------
-
-### Prerequisites
-
-* PHP (http://php.net)
-* Node (http://nodejs.org)
-* NPM (https://npmjs.org/)
-
-### Setup
-
-```shell 
-# clone repo
-git clone https://github.com/alternatex/phwarch.git && cd phwarch
-
-# node deps
-npm install 
-
-# install 
-install.sh
+```shell
+launchctl unload ~/Library/LaunchAgents/phwarch.plist
 ```
 
 Development
@@ -132,4 +97,30 @@ License
 Released under two licenses: new BSD, and MIT. You may pick the
 license that best suits your development needs.
 
-https://github.com/alternatex/phwarch/blob/master/LICENSE
+https://raw.github.com/alternatex/phwarch/master/LICENSE
+
+MISC TO REMOVE OR XXX
+-------------
+shebang > 
+
+#!/bin/phwarch 
+.pwarch-files shebang
+
+TODO: 
+
+phwarch as shell script only
+
+» direct script-pass in
+
+just a readme. basta.
+
+create manifest o contents
+» md5 hashed
+» compare / update phar contents with that?!
+
+hmmm.
+
+- php-class phar-updates / mods XXX
+- automated-changes testscript (ini_set('max_execution_time', 0); sleep(XXX);)
+
+chmod a+x src/cli.php

@@ -28,5 +28,9 @@ fi
 echo "# phwarch" >> $shellcfg
 echo "export PATH=~/.phwarch/bin:$PATH" >> $shellcfg
 
+# check whether inotifywatch available
+
+# store method (inotifywatch/php-loop)
+
 # apply 
 . $shellcfg
