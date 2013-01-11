@@ -1,7 +1,7 @@
 {
   "name": "phwarch",    
   "version": "0.1.0",
-  "description": "PHP Development Utility: PHAR Auto-Updater",
+  "description": "A PHP development utility to automatically update PHAR archives by watching filesystem changes",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/phwarch",
   "author": {
@@ -13,11 +13,11 @@
   "licenses": [
     {
       "type": "BSD",
-      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+      "url": "https://raw.github.com/alternatex/phwarch/master/LICENSE"
     },
     {
       "type": "MIT",
-      "url": "https://github.com/alternatex/phwarch/blob/master/LICENSE"
+      "url": "https://raw.github.com/alternatex/phwarch/master/LICENSE"
     }
   ],
   "engines": {

@@ -3,7 +3,7 @@
 * ------------------------------------------------------------------               
 * Phwarch
 *
-* PHP Development Utility: PHAR Auto-Updater
+* A PHP development utility to automatically update PHAR archives by watching filesystem changes
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 

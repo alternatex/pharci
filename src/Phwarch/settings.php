@@ -1,7 +1,6 @@
-<?php
+<?php 
+// path to settings
+$settings = 'settings.json'; 
 
-// common stuff
-
-// define possible configuration values > project/"instance" based 
-
-// >> @default: working directory *
+// read $settings and extract it's contents as variables 
+if(file_exists($settings)) extract(json_decode(file_get_contents($settings),true)); else die("ERROR: settings.json not found.");

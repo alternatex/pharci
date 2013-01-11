@@ -12,9 +12,15 @@ Tested on Debian, Ubuntu and MacOSX.
 
 ### Prerequisites
 
+**Core**
+
 * PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
+
+**Custom**
+
+* Bazinga (https://github.com/alternatex/bazinga)
 
 ### Installation
 

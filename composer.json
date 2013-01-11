@@ -1,7 +1,7 @@
 {
   "name": "phwarch",    
   "version": "0.1.0",
-  "description": "PHP Development Utility: PHAR Auto-Updater",
+  "description": "A PHP development utility to automatically update PHAR archives by watching filesystem changes",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/phwarch",
   "type": "library",
