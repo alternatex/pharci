@@ -6,7 +6,8 @@ PHP development utility to automatically replicate/mirror filesystem changes int
 Prerequisites
 -------------
 
-**OS** * Bodhi
+**OS**
+* Bodhi
 * Ubuntu
 * Debian
 
