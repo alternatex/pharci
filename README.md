@@ -36,11 +36,6 @@ Usage
 
 ```shell
 pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
-
-inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
-  while read FILE ; do
-    php pharci.php $FILE "${out}"
-  done
 ```
 
 Roadmap
