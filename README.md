@@ -6,23 +6,19 @@ PHP development utility to automatically replicate/mirror filesystem changes int
 Setup
 -----
 
-### Platform Support
-
-Tested on Bodhi, Ubuntu and Debian.
-
 ### Prerequisites
 
 **Core**
 
+* Unix-OS [Bodhi, Ubuntu and Debian]
 * PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
-
-**Custom**
-
-TBD: autom installation!
-
 * Bazinga (https://github.com/alternatex/bazinga)
+
+**System**
+
+Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
 ### Installation
 
@@ -40,18 +36,6 @@ QuickStart
 -------------
 
 ###Unix - Inotifywatch
-
-```shell
-inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format '%w;%f;%e' "${watch}" |
-  while read FILE ; do
-    php pharci.php $FILE "${out}"
-  done
-```
-
-Development
--------------
-
-Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
 ```shell
 # run
