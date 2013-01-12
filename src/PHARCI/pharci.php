@@ -3,7 +3,7 @@
 * ------------------------------------------------------------------               
 * PHARCI
 *
-* PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives
+* PHP development utility to mirror filesystem modifications into PHAR-archives
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 

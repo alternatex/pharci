@@ -49,6 +49,8 @@ source ../.bazinga/configure.sh
 # move back to directory where we started at (TODO: properly solve path issues)
 cd $currentpath
 
+bazinga_directory=".pharcix"
+
 # first execution - clean environment?
 if [ ! -d $bazinga_directory ]; then	
 

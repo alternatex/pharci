@@ -10,10 +10,10 @@ echo "curl or wget check ?!"
 targetdir="~/.pharci"
 
 # go home
-#cd ~
+cd ~
 
 # fetch sources
-#git clone https://github.com/alternatex/pharci.git "${targetdir}" && cd "${targetdir}"
+git clone https://github.com/alternatex/pharci.git "${targetdir}" && cd "${targetdir}"
 
 # install node deps
 npm install

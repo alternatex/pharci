@@ -1,7 +1,7 @@
 PHARCI
 =============
 
-PHP development utility to mirror filesystem changes into PHAR-archives
+PHP development utility to mirror filesystem modifications into PHAR-archives
 
 Prerequisites
 -------------
