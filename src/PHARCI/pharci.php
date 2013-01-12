@@ -1,13 +1,13 @@
-<?php namespace Phwarch;
+<?php namespace PHARCI;
 /*!
 * ------------------------------------------------------------------               
-* Phwarch
+* PHARCI
 *
 * A PHP development utility to automatically update PHAR archives by watching filesystem changes
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 
-* https://raw.github.com/alternatex/phwarch/master/LICENSE
+* https://raw.github.com/alternatex/pharci/master/LICENSE
 *
 * ------------------------------------------------------------------ 
 */
@@ -16,7 +16,7 @@
 
 require_once(dirname(__FILE__).'/settings.php');
 
-class Phwarch {
+class PHARCI {
 
 	// ...
 	private static $initialized = false;
@@ -57,4 +57,4 @@ class Phwarch {
 	private function __destruct(){}
 }
 
-Phwarch::Update('myphar.phar', 'filex_xxx', 'action_add | action_remove');
+PHARCI::Update('myphar.phar', 'filex_xxx', 'action_add | action_remove');

@@ -1,13 +1,13 @@
 #!/usr/bin/php
 /*!
 * ------------------------------------------------------------------               
-* Phwarch
+* PHARCI
 *
 * PHP Development Utility: PHAR Auto-Updater
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 
-* https://raw.github.com/alternatex/phwarch/master/LICENSE
+* https://raw.github.com/alternatex/pharci/master/LICENSE
 *
 * ------------------------------------------------------------------ 
 */

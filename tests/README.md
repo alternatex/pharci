@@ -1,3 +1,3 @@
-Phwarch - Test
+PHARCI - Test
 ==============
 

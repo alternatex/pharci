@@ -7,13 +7,13 @@ echo "bazinga installed? if not - install - shout out loud!"
 echo "curl or wget check ?!"
 
 # configuration
-targetdir="~/.phwarch"
+targetdir="~/.pharci"
 
 # go home
 #cd ~
 
 # fetch sources
-#git clone https://github.com/alternatex/phwarch.git "${targetdir}" && cd "${targetdir}"
+#git clone https://github.com/alternatex/pharci.git "${targetdir}" && cd "${targetdir}"
 
 # install node deps
 npm install
@@ -40,8 +40,8 @@ if [ -f ~/.profile ]; then
 fi
 
 # update shell configuration
-echo "# phwarch" >> $shellcfg
-echo "export PATH=~/.phwarch/bin:$PATH" >> $shellcfg
+echo "# pharci" >> $shellcfg
+echo "export PATH=~/.pharci/bin:$PATH" >> $shellcfg
 
 # check whether inotifywatch available or OSX if not: cancel install... shout out loud
 echo "prerequisites check - inotify?"
@@ -49,7 +49,7 @@ echo "prerequisites check - macosx?"
 echo "store method (inotifywatch/php-loop)"
 
 # make executable
-chmod a+x "${targetdir}/src/cli.php"
+chmod a+x "${targetdir}/src/pharci-cli.php"
 
 # apply 
 . $shellcfg

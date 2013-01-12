@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# phwarch edits 
-phwarch_edit=false # offer?
+# pharci edits 
+pharci_edit=false # offer?
 
 # bazinga settings
-bazinga_namespace="phwarch_"
-bazinga_directory=".phwarchx"
-bazinga_custom=".phwarchx/settings.sh"
+bazinga_namespace="pharci_"
+bazinga_directory=".pharcix"
+bazinga_custom=".pharcix/settings.sh"
 
 # bazinga configuration
 function bazinga_gather(){

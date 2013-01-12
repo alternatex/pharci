@@ -1,16 +1,16 @@
 PHARCI
 =============
 
-PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives
+PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications
 
 Setup
 -----
 
 ### Prerequisites
 
-**Core**
+Unix-OS [Bodhi, Ubuntu and Debian]
 
-* Unix-OS [Bodhi, Ubuntu and Debian]
+**Core**
 * PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
@@ -35,11 +35,10 @@ via `wget`
 QuickStart
 -------------
 
-###Unix - Inotifywatch
+### \*nix
 
 ```shell
-# run
-bin/pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
+pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
 ```
 
 Roadmap
