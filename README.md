@@ -1,4 +1,4 @@
-PHARCI
+Pharci
 =============
 
 PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications
@@ -16,7 +16,7 @@ Unix-OS [Bodhi, Ubuntu and Debian]
 * NPM (https://npmjs.org/)
 * Bazinga (https://github.com/alternatex/bazinga)
 
-**System**
+### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
@@ -32,7 +32,7 @@ via `wget`
 
 `wget --no-check-certificate https://github.com/alternatex/pharci/raw/master/install.sh -O - | sh`
 
-QuickStart
+Usage
 -------------
 
 ### \*nix

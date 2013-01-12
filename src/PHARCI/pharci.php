@@ -1,7 +1,7 @@
-<?php namespace PHARCI;
+<?php namespace Pharci;
 /*!
 * ------------------------------------------------------------------               
-* PHARCI
+* Pharci
 *
 * A PHP development utility to automatically update PHAR archives by watching filesystem changes
 *
@@ -16,7 +16,7 @@
 
 require_once(dirname(__FILE__).'/settings.php');
 
-class PHARCI {
+class Pharci {
 
 	// ...
 	private static $initialized = false;
@@ -57,4 +57,4 @@ class PHARCI {
 	private function __destruct(){}
 }
 
-PHARCI::Update('myphar.phar', 'filex_xxx', 'action_add | action_remove');
+Pharci::Update('myphar.phar', 'filex_xxx', 'action_add | action_remove');

@@ -39,7 +39,7 @@ function bazinga_edit() {
 printf "\e[1;31m"
 echo "
 -------------------------------
---- ★  PHARCI - v.1.0.0 ★  ---
+--- ★  Pharci - v.1.0.0 ★  ---
 -------------------------------"
 printf "\e[0m"
 
@@ -101,5 +101,5 @@ format='-d "%w" -f "%f" -e "%e"'
 # watch directory / dispatch events / exec phar update
 inotifywait --recursive --monitor --quiet --event modify,create,delete,move --format "${format}" "${watchdir}" | 
 while read FILE ; do    	
-	./PHARCI/pharci-cli.php $FILE
+	./Pharci/pharci-cli.php $FILE
 done

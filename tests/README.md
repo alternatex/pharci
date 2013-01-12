@@ -1,3 +1,3 @@
-PHARCI - Test
+Pharci - Test
 ==============
 

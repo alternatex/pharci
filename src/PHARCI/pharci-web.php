@@ -1,7 +1,7 @@
 <?php
 /*!
 * ------------------------------------------------------------------               
-* PHARCI
+* Pharci
 *
 * PHP Development Utility: PHAR Auto-Updater
 *
