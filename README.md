@@ -15,12 +15,17 @@ Unix-OS [Bodhi, Ubuntu and Debian]
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
 * Bazinga (https://github.com/alternatex/bazinga)
+* Watchdog (https://github.com/gorakhargosh/watchdog)
 
 ### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
 ### Installation
+
+You can install this through https://github.com/alternatex/shinst
+
+`shinst install "https://github.com/alternatex/pharci"`
 
 You can install this via the command line with either `curl` or `wget`.
 

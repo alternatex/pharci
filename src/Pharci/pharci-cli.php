@@ -19,8 +19,10 @@ $longopts=array('dir', 'file', 'events');
 
 // getopt helpers - initialize
 array_map(function($option){
+
 	// set shortopt as first char o longopt (yeah, I know..)
 	$options.=substr($option, 0, 1).':';
+
 }, $longopts);
 
 // retrieve commandline args

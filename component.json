@@ -6,6 +6,7 @@
     "url": "git@github.com:alternatex/pharci.git"
   },
   "dependencies": {
-    "log4php": "git://git.apache.org/logging-log4php.git"
+    "log4php": "git://git.apache.org/logging-log4php.git",
+    "watchdog": "git://github.com/gorakhargosh/watchdog.git"
   }
 }
