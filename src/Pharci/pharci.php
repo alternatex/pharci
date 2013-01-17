@@ -3,7 +3,9 @@
 * ------------------------------------------------------------------               
 * Pharci
 *
-* A PHP development utility to automatically update PHAR archives by watching filesystem changes
+* PHP development utility to automate replication of files and 
+* folders into PHAR-archives by monitoring filesystem modifications 
+* using [watchdog](https://github.com/gorakhargosh/watchdog/)
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 
@@ -11,25 +13,34 @@
 *
 * ------------------------------------------------------------------ 
 */
-
-# EVENTS: CREATE, MODIFY, MOVE_FROM, MOVE_TO, DELETE
+global $args;
 
 require_once(dirname(__FILE__).'/settings.php');
 
 class Pharci {
 
-	// ...
+	// event types
+	const EVENT_TYPE_CREATED = 'created';
+	const EVENT_TYPE_MODIFIED = 'modified';
+	const EVENT_TYPE_MOVED = 'moved';
+	const EVENT_TYPE_DELETED = 'deleted';
+	
+	// objects
+	const EVENT_OBJECT_FILE = 'file';
+	const EVENT_OBJECT_DIRECTORY = 'directory';
+
+	// helpers
 	private static $initialized = false;
 	private static $logger = null;
 
-	// ...
-	private static function Initialize(){
+	// singleton constructor
+	private static function getInstance(){
 		// require log4php 
 		// ...
 	}
 	
 	// ...
-	public static function Update($path, $file, $event, $log='debug'){
+	public static function Process($src, $dest, $event_type, $object, $log='debug'){
 
 		// basename
 		// filepath
@@ -39,7 +50,7 @@ class Pharci {
 		// rmdir if empty
 
 		$context = stream_context_create(
-    	    array('phar' => array('compress' => Phar::GZ)),
+    	    array('Pharci\Pharci' => array('compress' => Phar::GZ)),
             array('metadata' => array('user' => 'cellog'))
         );
 
@@ -57,4 +68,5 @@ class Pharci {
 	private function __destruct(){}
 }
 
-Pharci::Update('myphar.phar', 'filex_xxx', 'action_add | action_remove');
+// process event
+Pharci::Process('myphar.phar', $args['src'], $args['dest'], $args['event_type'], $args['object']);

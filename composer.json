@@ -1,7 +1,7 @@
 {
   "name": "pharci",    
-  "version": "0.1.0",
-  "description": "PHP development utility to automatically replicate/mirror filesystem changes into PHAR-archives",
+  "version": "1.0.0",
+  "description": "PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/pharci",
   "type": "library",
@@ -48,8 +48,7 @@
     }    
   ],
   "require": {
-    "log4php": "0.0.*",
-    "watchdog": "0.0.*"
+    "log4php": "0.0.*"
   },     
   "autoload": {
     "psr-0": { "pharci": "/" }

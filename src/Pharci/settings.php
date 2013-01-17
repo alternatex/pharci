@@ -1,5 +1,5 @@
 <?php 
-// path to settings
+// path to settings // TODO: ensure relative to cwd
 $settings = 'settings.json'; 
 
 // read $settings and extract it's contents as variables *bazinga* 

@@ -7,10 +7,15 @@ pharci_edit=false # offer?
 bazinga_namespace="pharci_"
 bazinga_directory=".pharcix"
 bazinga_custom=".pharcix/settings.sh"
+bazinga_custom_json="settings.json"
 
 # bazinga configuration
 function bazinga_gather(){
-	bazinga_input "omit_files" "omit_files"	
-	# todo: log directory
-	# todo: ...
+	bazinga_input "input_directory" "input_directory"	
+	bazinga_input "output_directory" "output_directory"	
+}
+
+# ...
+function bazinga_postprocess(){
+	echo "..."
 }

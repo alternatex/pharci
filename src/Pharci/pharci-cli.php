@@ -3,7 +3,9 @@
 * ------------------------------------------------------------------               
 * Pharci
 *
-* PHP Development Utility: PHAR Auto-Updater
+* PHP development utility to automate replication of files and 
+* folders into PHAR-archives by monitoring filesystem modifications 
+* using [watchdog](https://github.com/gorakhargosh/watchdog/)
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 
@@ -12,6 +14,18 @@
 * ------------------------------------------------------------------ 
 */
  <?php
+
+// omit scriptname
+array_shift($argv);
+
+// extract arguments
+$args = array_combine(array('src', 'dest', 'event_type', 'object'), $argv);
+
+// run phar-update
+include(dirname(__FILE__).'/pharci.php');
+
+// atm only positional options supported
+exit;
 
 // getopt helpers - params
 $options='';
@@ -27,6 +41,3 @@ array_map(function($option){
 
 // retrieve commandline args
 $args = getopt($options, $longopts);
-
-// run phar-update
-include(dirname(__FILE__).'/settings.php');

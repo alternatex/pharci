@@ -1,20 +1,37 @@
 Pharci
 =============
 
-PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications
+PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
+
+THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+
+LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING
+LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING
+LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING
+LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING
+LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING LOGGING
+
+RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
+RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
+RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
+RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
+RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
 
 Setup
 -----
 
 ### Prerequisites
 
-Unix-OS [Bodhi, Ubuntu and Debian]
+Unix-OS
 
 **Core**
 * PHP (http://php.net)
 * Node (http://nodejs.org)
 * NPM (https://npmjs.org/)
-* Bazinga (https://github.com/alternatex/bazinga)
 * Watchdog (https://github.com/gorakhargosh/watchdog)
 
 ### Configuration
@@ -25,35 +42,20 @@ Ensure php.ini includes `phar.readonly=Off` to enable creation and modification 
 
 You can install this through https://github.com/alternatex/shinst
 
-`shinst install "https://github.com/alternatex/pharci"`
-
-You can install this via the command line with either `curl` or `wget`.
-
-via `curl`
-
-`curl -L https://github.com/alternatex/pharci/raw/master/install.sh | sh`
-
-via `wget`
-
-`wget --no-check-certificate https://github.com/alternatex/pharci/raw/master/install.sh -O - | sh`
+`shinst install alternatex/pharci`
 
 Usage
 -------------
 
-### \*nix
-
 ```shell
-pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
+pharci --input=./path/to/code --output=./path/to/archive
 ```
 
 Roadmap
 -------------
-- Automated dependency inclusion (Bazinga, ...)
-- Automated tests
+- Tests
 - Manifest
 - Bootstrapping
-- OSX support
-- Configuration (.pharci files)
 - Nested configuration support 
 - ... *
 
