@@ -21,8 +21,8 @@ RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE
 RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
 RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
 
-Setup
------
+Installation
+------------
 
 ### Prerequisites
 
@@ -38,7 +38,7 @@ Unix-OS
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
-### Installation
+### Setup
 
 You can install this through https://github.com/alternatex/shinst
 

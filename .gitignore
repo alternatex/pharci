@@ -1,4 +1,5 @@
 .pharci/*
 .DS_Store
+src/settings.json
 src/vendor/*
 node_modules/*
