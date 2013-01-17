@@ -48,7 +48,7 @@ Usage
 -------------
 
 ```shell
-pharci --input=./path/to/code --output=./path/to/archive
+pharci <directory> <phar>
 ```
 
 Roadmap

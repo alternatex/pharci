@@ -25,7 +25,7 @@ $args = array_combine(array('src', 'dest', 'event_type', 'object'), $argv);
 include(dirname(__FILE__).'/pharci.php');
 
 // atm only positional options supported
-exit;
+exit();
 
 // getopt helpers - params
 $options='';

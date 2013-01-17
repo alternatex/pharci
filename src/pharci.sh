@@ -55,7 +55,7 @@ echo "
 printf "\e[0m"
 
 # include configuration (if any)
-source ../.bazingac/configure.sh
+source $PHARCI/.bazingac/configure.sh
 
 # move back to directory where we started at
 cd $currentpath

@@ -1,5 +1,6 @@
 .pharci/*
 .DS_Store
+settings.sh
 settings.sh.tmp
 src/settings.json
 src/vendor/*
