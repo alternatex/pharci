@@ -1,4 +1,4 @@
-.pharci
+.pharci/*
 .DS_Store
 src/vendor/*
 node_modules/*
