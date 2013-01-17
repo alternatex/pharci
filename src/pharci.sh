@@ -3,13 +3,23 @@
 # general
 PHARCI=~/.pharci
 
-# version
-pharci_version='1.0.0'
-
 # remember the roots
 export currentpath="`pwd`"
 
-# configure project
+# helper - usage (help)
+pharci_usage(){
+cat << EOF
+usage:  pharci <directory> <filename> 
+
+directory:  filesystem path to observer
+filename:   phar archive filename 
+
+example: pharci . library.phar
+
+EOF
+}
+
+# helper - configure
 pharci_configure() {
 
   # internals
@@ -34,22 +44,6 @@ pharci_configure() {
 
   # dynamic export / convert environment variables as json w/ php-helper
   php $BAZINGA_INSTALL_DIR/mod/json/json.php $bazinga_namespace $bazinga_custom_json
-}
-
-# describe usage
-pharci_usage(){
-  
-cat << EOF
-usage:  pharci <directory> <filename> 
-
-directory:  filesystem path to observe
-filename:   phar archive filename 
-
-example: pharci . 'library.phar'
-EOF  
-
-# inject version info
-echo "version: $pharci_version"
 }
 
 # say hi
@@ -80,7 +74,6 @@ if [ -f ".pharcix/settings.sh" ]; then
   read -p "Configure? («Y» to edit or any key to skip) "
         ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ])  && pharci_configure
 else 
-  # initial configuration
   pharci_configure  
 fi
 
