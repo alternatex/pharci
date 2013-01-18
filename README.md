@@ -3,17 +3,14 @@ Pharci
 
 PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
 
-THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
-THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
-THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
-THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
-THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY THREAD SAFETY
+Use Case / Workflow
+-------------------
 
-RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
-RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
-RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
-RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
-RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS RELATIVE SETTINGS 
+External resource inclusion flipflop *
+
+Batch prevention *
+
+Directory move/delete > full rebuild *
 
 Installation
 ------------
@@ -36,6 +33,14 @@ Ensure php.ini includes `phar.readonly=Off` to enable creation and modification 
 You can install this through https://github.com/alternatex/shinst
 
 `shinst install alternatex/pharci`
+
+or `curl`
+
+`curl -L https://github.com/alternatex/pharci/raw/master/install.sh | sh`
+
+or `wget`
+
+`wget --no-check-certificate https://github.com/alternatex/pharci/raw/master/install.sh -O - | sh`
 
 Usage
 -------------

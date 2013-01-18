@@ -8,7 +8,10 @@ then
 else
 	# shout out loud
 	printf "\e[1;31mshinst not found.\e[0m   $1\n"
-	exit 101
+	
+	# ...
+	wget --no-check-certificate https://github.com/alternatex/shinst/raw/master/install.sh -O - | sh
+	#exit 101
 fi
 
 # check node  
@@ -19,7 +22,7 @@ then
 else
 	# shout out loud
 	printf "\e[1;31mnode not found.\e[0m   $1\n"
-	exit 102
+	#exit 102
 fi
 
 # check npm
@@ -30,7 +33,7 @@ then
 else
 	# shout out loud
 	printf "\e[1;31mnpm not found.\e[0m   $1\n"
-	exit 103	
+	#exit 103	
 fi
 
 # check bazinga
@@ -41,7 +44,7 @@ then
 else
 	# install dependency
 	printf "\e[32minstalling bazinga...\e[0m   $1\n"
-	shinst install "alternatex/bazinga"
+	shinst install alternatex/bazinga
 	printf "\e[32mdone.\e[0m   $1\n"
 fi
 
