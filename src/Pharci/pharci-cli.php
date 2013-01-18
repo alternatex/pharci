@@ -1,43 +1,32 @@
-#!/usr/bin/php
-/*!
-* ------------------------------------------------------------------               
-* Pharci
-*
-* PHP development utility to automate replication of files and 
-* folders into PHAR-archives by monitoring filesystem modifications 
-* using [watchdog](https://github.com/gorakhargosh/watchdog/)
-*
-* Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
-* 
-* https://raw.github.com/alternatex/pharci/master/LICENSE
-*
-* ------------------------------------------------------------------ 
-*/
- <?php
+#!/usr/bin/php 
+<?php
+
+// system
+date_default_timezone_set('UTC');
 
 // omit scriptname
 array_shift($argv);
 
-// extract arguments
-$args = array_combine(array('src', 'dest', 'event_type', 'object'), $argv);
-
-// run phar-update
-include(dirname(__FILE__).'/pharci.php');
-
-// atm only positional options supported
-exit();
-
-// getopt helpers - params
-$options='';
-$longopts=array('dir', 'file', 'events');
+// getopts
+$options=''; $longopts=array('watch', 'phar', 'src', 'dest', 'event_type', 'object');
 
 // getopt helpers - initialize
-array_map(function($option){
+false && array_map(function($option){
 
 	// set shortopt as first char o longopt (yeah, I know..)
 	$options.=substr($option, 0, 1).':';
 
 }, $longopts);
 
-// retrieve commandline args
-$args = getopt($options, $longopts);
+// extract arguments
+$args = array_combine($longopts, $argv); // getopt($options, $longopts);
+
+// ...
+if(strpos($args['src'], 'queue_')===FALSE) {
+
+	// determine epoch
+	$queue_file = 'queue_'.date('ymdhi', time());
+	
+	//echo "queuefile: $queue_file";
+	file_put_contents($queue_file, (file_exists($queue_file)?"\n":'').json_encode($args), FILE_APPEND);
+}

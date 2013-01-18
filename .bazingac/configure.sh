@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# pharci edits 
-pharci_edit=false # offer?
-
 # bazinga settings
 bazinga_namespace="pharci_"
 bazinga_directory=".pharcix"
@@ -17,5 +14,5 @@ function bazinga_gather(){
 
 # ...
 function bazinga_postprocess(){
-	echo "..."
+	printf ""
 }
