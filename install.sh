@@ -1,55 +1,59 @@
 #!/bin/bash
 
-# prerequisites
-echo "bazinga installed? if not - install - shout out loud!"
-
-# curl or wget check ?!
-echo "curl or wget check ?!"
-
-# configuration
-targetdir="~/.pharci"
-
-# go home
-cd ~
-
-# fetch sources
-git clone https://github.com/alternatex/pharci.git "${targetdir}" && cd "${targetdir}"
-
-# install node deps
-npm install
-
-# install components
-bower install
-
-# shell configuration file (TODO: combine with $SHELL environment variable)
-shellcfg=""
-
-# bash
-if [ -f ~/.bashrc ]; then 
-	shellcfg="$HOME/.bashrc"
+# check installation
+if [[ -a "$(which shinst)" ]]
+  then 
+  
+	# shout out loud
+	printf "\e[32mshinst found.\e[0m   $1\n"
+else
+	# shout out loud
+	printf "\e[1;31mshinst not found.\e[0m   $1\n"
+	
+	# ...
+	bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/install.sh -O -)
+	#exit 101
 fi
 
-# zsh
-if [ -f ~/.zshrc ]; then 
-	shellcfg="$HOME/.zshrc"
+# check node  
+if [[ -a "$(which node)" ]]
+  then 
+  
+	# shout out loud
+	printf "\e[32mnode found.\e[0m   $1\n"
+else
+	# shout out loud
+	printf "\e[1;31mnode not found.\e[0m   $1\n"
+	#exit 102
 fi
 
-# ?
-if [ -f ~/.profile ]; then 
-	shellcfg="$HOME/.profile"
+# check npm
+if [[ -a "$(which npm)" ]]
+  then 
+  
+	# shout out loud
+	printf "\e[32mnpm found.\e[0m   $1\n"
+else
+	# shout out loud
+	printf "\e[1;31mnpm not found.\e[0m   $1\n"
+	#exit 103	
 fi
 
-# update shell configuration
-echo "# pharci" >> $shellcfg
-echo "export PATH=~/.pharci/bin:$PATH" >> $shellcfg
+# check bazinga
+if [[ -a "$(which bazinga)" ]]
+  then 
+  
+	# shout out loud
+	printf "\e[32mbazinga found.\e[0m   $1\n"
+else
+	# install dependency
+	printf "\e[32minstalling bazinga...\e[0m   $1\n"
+	shinst install alternatex/bazinga
+	printf "\e[32mdone.\e[0m   $1\n"
+fi
 
-# check whether inotifywatch available or OSX if not: cancel install... shout out loud
-echo "prerequisites check - inotify?"
-echo "prerequisites check - macosx?"
-echo "store method (inotifywatch/php-loop)"
+# install dependencies
+false && npm install && bower install
 
-# make executable
-chmod a+x "${targetdir}/src/pharci-cli.php"
-
-# apply 
-. $shellcfg
+# bye
+printf "\e[32mpharci is installed.\e[0m   $1\n"

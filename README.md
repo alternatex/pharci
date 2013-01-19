@@ -1,53 +1,72 @@
-PHARCI
+Pharci
 =============
 
-PHP development utility to mirror filesystem modifications into PHAR-archives
+PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
 
-Prerequisites
--------------
+Use Case
+--------
 
-### Core
+Simplifies development workflow when working on projects referencing phar archives.
 
-- Unix OS (Ubuntu/Bodhi/Debian/?)
-- PHP (http://php.net)
-- Node (http://nodejs.org)
-- NPM (https://npmjs.org/)
-- Bazinga (https://github.com/alternatex/bazinga)
+Workflow
+--------
+
+Max modifications per time unit until full phar-rebuild:
+
+Error Handling:
+
+- Corrupt-Phar Loop-Count *
+
+Changes within a library included as phar archive.
+
+External resource inclusion flipflop *
+
+Batch prevention *
+
+Directory move/delete > full rebuild *
+
+Installation
+------------
+
+### Prerequisites
+
+Unix-OS
+
+**Core**
+* PHP (http://php.net)
+* Python (http://www.python.org)
+* Watchdog (https://github.com/gorakhargosh/watchdog)
 
 ### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
 
-Installation
-------------
+### Setup
 
-You can install this via the command line with either `curl` or `wget`.
+You can install this through https://github.com/alternatex/shinst
+
+`shinst install alternatex/pharci`
 
 via `curl`
 
-`curl -L https://github.com/alternatex/pharci/raw/master/install.sh | sh`
+`bash -s stable < <(curl -s https://raw.github.com/alternatex/pharci/master/install.sh)`
 
 via `wget`
 
-`wget --no-check-certificate https://github.com/alternatex/pharci/raw/master/install.sh -O - | sh`
+`bash -s stable < <(wget https://raw.github.com/alternatex/pharci/master/install.sh -O -)`
 
 Usage
 -------------
 
 ```shell
-pharci --xxx=first_opt --yyy=second_opt --zzz=third_opt
+# per directory configuration using bazinga *
+pharci
 ```
 
 Roadmap
 -------------
-
-- Automated dependency inclusion (Bazinga, ...)
-- Automated tests
-- Manifest
+- Tests
 - Bootstrapping
-- OSX support
-- Configuration (.pharci files)
-- Nested configuration support 
 - ... *
 
 License

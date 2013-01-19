@@ -1,7 +1,7 @@
 {
   "name": "pharci",    
-  "version": "0.1.0",
-  "description": "PHP development utility to mirror filesystem modifications into PHAR-archives",
+  "version": "1.0.0",
+  "description": "PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/pharci",
   "type": "library",
@@ -33,11 +33,21 @@
           },
           "target-dir": "/"
       }
-  }
+    },
+    {
+      "type": "package",
+      "package": {
+          "name": "watchdog",
+          "version": "0.0.1",
+          "dist": {
+              "url": "https://github.com/gorakhargosh/watchdog/archive/master.zip",
+              "type": "zip"
+          },
+          "target-dir": "/"
+      }
+    }    
   ],
-  "require": {
-    "log4php": "0.0.*"
-  },     
+  "require": {},     
   "autoload": {
     "psr-0": { "pharci": "/" }
   }  

@@ -1,7 +1,7 @@
 {
   "name": "pharci",    
   "version": "1.0.0",
-  "description": "PHP development utility to mirror filesystem modifications into PHAR-archives",
+  "description": "PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/pharci",
   "author": {
@@ -20,11 +20,6 @@
       "url": "https://raw.github.com/alternatex/pharci/master/LICENSE"
     }
   ],
-  "engines": {
-      "node": ">=0.8.x",
-      "npm":  ">=1.1.x"
-  }, 
-  "dependencies": {
-      "bower": ">=0.0.0"
-  }
+  "engines": {}, 
+  "dependencies": {}
 }
