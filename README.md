@@ -3,28 +3,6 @@ Pharci
 
 PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
 
-Use Case
---------
-
-Simplifies development workflow when working on projects referencing phar archives.
-
-Workflow
---------
-
-Max modifications per time unit until full phar-rebuild:
-
-Error Handling:
-
-- Corrupt-Phar Loop-Count *
-
-Changes within a library included as phar archive.
-
-External resource inclusion flipflop *
-
-Batch prevention *
-
-Directory move/delete > full rebuild *
-
 Installation
 ------------
 
