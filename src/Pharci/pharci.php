@@ -13,6 +13,11 @@
 *
 * ------------------------------------------------------------------ 
 */
+
+// initialize
+if(!defined('PHARCI_INITIALIZED') && define('PHARCI_INITIALIZED', true)):
+
+// ... 
 global $args;
 
 // include configuration
@@ -38,17 +43,8 @@ class Pharci {
   private static $initialized = false;
   private static $logger = null;
   
-  // helper - extract from archive
-  public static function Unpack($phar, $src=self::SOURCES_ALL){
-    if($src=='*') {
-      echo "Unpack all";
-    } else {
-      echo "Unpack $src";
-    }
-  }   
-
   // process filesystem event
-  public static function Pack($watch, $phar, $src, $dest, $event_type, $object, $log='debug'){
+  public static function ProcessEvent($watch, $phar, $src, $dest, $event_type, $object, $log='debug'){
     
     // todo: remove this - inject ... *    
     global $args;    
@@ -129,4 +125,17 @@ class Pharci {
         break;
     }
   }
+
+  // helper - extract $src from archive
+  public static function Extract($phar, $src=self::SOURCES_ALL){
+    if($src=='*') {
+      echo "Unpack all";
+    } else {
+      echo "Unpack $src";
+    }
+  }   
+
 }
+
+// initialize - end
+endif;

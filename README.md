@@ -37,6 +37,30 @@ Unix-OS
 * Python (http://www.python.org)
 * Watchdog (https://github.com/gorakhargosh/watchdog)
 
+
+**Quoting Watchdog/Supported Platforms**
+> * Linux 2.6 (inotify)
+> * Mac OS X (FSEvents, kqueue)
+> * FreeBSD/BSD (kqueue)
+> 
+> Note that when using watchdog with kqueue, you need the
+> number of file descriptors allowed to be opened by programs
+> running on your system to be increased to more than the
+> number of files that you will be monitoring. The easiest way
+> to do that is to edit your ``~/.profile`` file and add
+> a line similar to::
+> 
+>     ulimit -n 1024
+> 
+> This is an inherent problem with kqueue because it uses
+> file descriptors to monitor files. That plus the enormous
+> amount of bookkeeping that watchdog needs to do in order
+> to monitor file descriptors just makes this a painful way
+> to monitor files and directories. In essence, kqueue is
+> not a very scalable way to monitor a deeply nested
+> directory of files and directories with a large number of
+> files.
+
 ### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.

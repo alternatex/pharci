@@ -2,6 +2,15 @@
 
 // TODO: implement modification count per time unit as condition for partial / full updates
 // TODO: on error rebuild // think. handle.
+// TODO: DIFFERENT / BETTER PERFORMING APPROACH TO ACCESS PHAR > KEEP WITHIN LOOP MEM; TMP EXTRACT?!
+
+/*
+      // initialize stream context
+      $context = stream_context_create(
+        array('phar' => array('compress' => \Phar::GZ)),
+        array('metadata' => array('user' => 'alternatex'))
+      );
+*/
 
 // constants
 define('PHARCI_CAP', 5);
@@ -60,7 +69,7 @@ while(1){
       do {
         echo "\n already got more... * \n";
         $queues = $tmp_queues;
-        sleep(2);
+        sleep(10);
         $tmp_queues = glob('/Users/bazinga/pharci-test/queue_*');
       } while(sizeof($tmp_queues)>sizeof($queues));
       /*
@@ -74,23 +83,25 @@ while(1){
       foreach($queues as $queue) { if(file_exists($queue)) unlink($queue); }
       
       // remove archive
-      if(file_exists($args['phar'])) unlink($args['phar']);
+      if(file_exists($argv[1])) unlink($argv[1]);
         
       // initialize archive
-      $phar = new \Phar($args['phar'], 0, basename($args['phar']));
+      $phar = new \Phar($argv[1], 0, basename($argv[1]));
     
       // bootstrap (TODO: handle excluded files ?! settings.json/queue_*/...)
       $phar->buildFromDirectory('/Users/bazinga/pharci-test');
               
       // remove custom settings 
-      if(file_exists('phar://'.$args['phar'].'/settings.json')) unlink('phar://'.$args['phar'].'/settings.json');
+      if(file_exists('phar://'.$argv[1].'/settings.json')) unlink('phar://'.$argv[1].'/settings.json');
 
       // release
       $phar = null; 
 
       // export XXX
-      $phar = new \Phar($_args['phar']);
+      if(isset($argv[1])):
+      $phar = new \Phar($argv[1]);
       $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+      endif;
 
       // TODO: think
       sleep(10);
@@ -105,7 +116,7 @@ while(1){
       $args = json_decode($item, true);
 
       // TODO: remove this
-      if(!isset($args['phar'])) continue;     
+      if(!isset($argv[1])) continue;     
       
       // ...
       require_once(dirname(__FILE__).'/pharci.php');
@@ -118,10 +129,10 @@ while(1){
       $_args = $args;
       
       // perform bootstrap?
-      if(!file_exists($args['phar'])) {
+      if(!file_exists($argv[1])) {
         
           // initialize archive
-          $phar = new \Phar($args['phar'], 0, basename($args['phar']));
+          $phar = new \Phar($argv[1], 0, basename($argv[1]));
         
           // bootstrap
           $phar->buildFromDirectory('/Users/bazinga/pharci-test');
@@ -130,11 +141,11 @@ while(1){
           $phar = null; 
           
           // remove custom settings 
-          unlink('phar://'.$args['phar'].'/settings.json');
+          unlink('phar://'.$argv[1].'/settings.json');
       }
 
       // process event
-      Pharci::Pack($args['watch'], $args['phar'], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
+      Pharci::ProcessEvent($args['watch'], $argv[1], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
     }
 
     // cleanup
@@ -142,9 +153,11 @@ while(1){
     
     // debug - cleanup 
     rmdirx('/Users/bazinga/Desktop/out');
-      
+    
+    if(isset($argv[1])):
     // debug - export
-    $phar = new \Phar($_args['phar']);
+    $phar = new \Phar($argv[1]);
     $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+    endif;
   }
 }
