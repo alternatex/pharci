@@ -134,7 +134,6 @@ class Pharci {
       echo "Unpack $src";
     }
   }   
-
 }
 
 // initialize - end

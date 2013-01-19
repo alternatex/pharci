@@ -1,16 +1,14 @@
 <?php namespace Pharci;
 
-// TODO: implement modification count per time unit as condition for partial / full updates
-// TODO: on error rebuild // think. handle.
-// TODO: DIFFERENT / BETTER PERFORMING APPROACH TO ACCESS PHAR > KEEP WITHIN LOOP MEM; TMP EXTRACT?!
+// TODO: 
+//  - ON ERROR REBUILD // THINK. HANDLE.
+//  - DIFFERENT / BETTER PERFORMING APPROACH TO ACCESS PHAR > KEEP WITHIN LOOP MEM; TMP EXTRACT?!
 
-/*
-      // initialize stream context
-      $context = stream_context_create(
-        array('phar' => array('compress' => \Phar::GZ)),
-        array('metadata' => array('user' => 'alternatex'))
-      );
-*/
+// initialize stream context
+$context = stream_context_create(
+  array('phar' => array('compress' => \Phar::GZ)),
+  array('metadata' => array('user' => 'alternatex'))
+);
 
 // constants
 define('PHARCI_CAP', 5);
@@ -45,7 +43,6 @@ while(1){
   // fetch passed epoch queue file(s)
   $queues = glob('/Users/bazinga/pharci-test/queue_*');
 
-  // TODO: check max queues
   // process each > validation/wait/sleep XXX > "thread safety"
   foreach($queues as $queue) {
 
@@ -62,22 +59,14 @@ while(1){
     $items = explode("\n", file_get_contents($queue));
 
     // determine modification cap reached?
-    if(sizeof($items)>PHARCI_CAP) { echo "cap limit reached. full rebuild. wait a lil until it's more quiet";
-                        
-      $tmp_queues = glob('/Users/bazinga/pharci-test/queue_*');
-
+    if(sizeof($items)>PHARCI_CAP) { 
+      echo "cap limit reached. full rebuild. wait a lil until it's more quiet";                        
       do {
         echo "\n already got more... * \n";
         $queues = $tmp_queues;
-        sleep(10);
+        sleep(5);
         $tmp_queues = glob('/Users/bazinga/pharci-test/queue_*');
       } while(sizeof($tmp_queues)>sizeof($queues));
-      /*
-      if(sizeof($tmp_queues)>sizeof($queues)) {
-        $last = sizeof($tmp_queues);
-        while($last)
-      }
-      */
 
       // remove queues - TODO: think. queue copied inbetween > skip at $phar->buildFromDirectory
       foreach($queues as $queue) { if(file_exists($queue)) unlink($queue); }
@@ -99,12 +88,12 @@ while(1){
 
       // export XXX
       if(isset($argv[1])):
-      $phar = new \Phar($argv[1]);
-      $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+        $phar = new \Phar($argv[1]);
+        $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
       endif;
 
       // TODO: think
-      sleep(10);
+      sleep(5);
 
       // continue parent
       break;
@@ -154,10 +143,10 @@ while(1){
     // debug - cleanup 
     rmdirx('/Users/bazinga/Desktop/out');
     
-    if(isset($argv[1])):
     // debug - export
-    $phar = new \Phar($argv[1]);
-    $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+    if(isset($argv[1])):    
+      $phar = new \Phar($argv[1]);
+      $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
     endif;
   }
 }

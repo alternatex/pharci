@@ -8,15 +8,33 @@ Installation
 
 ### Prerequisites
 
-Unix-OS
-
-**Core**
+* Unix OS
 * PHP (http://php.net)
 * Python (http://www.python.org)
 * Watchdog (https://github.com/gorakhargosh/watchdog)
 
+### Configuration
 
-**Quoting Watchdog/Supported Platforms**
+Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
+
+### Setup
+
+You can install this through https://github.com/alternatex/shinst
+
+`shinst install alternatex/pharci`
+
+via `curl`
+
+`bash -s stable < <(curl -s https://raw.github.com/alternatex/pharci/master/install.sh)`
+
+via `wget`
+
+`bash -s stable < <(wget https://raw.github.com/alternatex/pharci/master/install.sh -O -)`
+
+### Platform Notes
+
+*Quoting Watchdog/Supported Platforms*:
+
 > * Linux 2.6 (inotify)
 > * Mac OS X (FSEvents, kqueue)
 > * FreeBSD/BSD (kqueue)
@@ -39,30 +57,11 @@ Unix-OS
 > directory of files and directories with a large number of
 > files.
 
-### Configuration
-
-Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
-
-### Setup
-
-You can install this through https://github.com/alternatex/shinst
-
-`shinst install alternatex/pharci`
-
-via `curl`
-
-`bash -s stable < <(curl -s https://raw.github.com/alternatex/pharci/master/install.sh)`
-
-via `wget`
-
-`bash -s stable < <(wget https://raw.github.com/alternatex/pharci/master/install.sh -O -)`
 
 Usage
 -------------
 
 ```shell
-
-# per directory configuration using bazinga *
 $ pharci
 
 -----------------------------------------
@@ -138,12 +137,6 @@ Press Enter to write changes to disk or ^C to abort
 Destination: /Users/bazinga/pharci-test/.pharcix/settings.sh
 
 ```
-
-Roadmap
--------------
-- Tests
-- Bootstrapping
-- ... *
 
 License
 -------------

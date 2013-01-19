@@ -21,15 +21,12 @@ false && array_map(function($option){
 // extract arguments
 $args = array_combine($longopts, $argv); // getopt($options, $longopts);
 
-// ...
-if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json')===FALSE && strpos($args['src'], '.DS_Store')===FALSE) {
-
-  // skip directory::modified, ...
-  if($args['event_type']=="modified" && $args['object']=="directory") exit();  
+// skip / process
+if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json')===FALSE && strpos($args['src'], '.DS_Store')===FALSE && (!($args['event_type']=="modified" && $args['object']=="directory"))) { 
 
   // determine epoch
   $queue_file = 'queue_'.date('ymdhis', time());
 
-  //echo "queuefile: $queue_file";
+  // update queue
   file_put_contents($queue_file, (file_exists($queue_file)?"\n":'').json_encode($args), FILE_APPEND);
 }

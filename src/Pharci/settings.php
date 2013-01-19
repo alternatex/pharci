@@ -1,5 +1,5 @@
 <?php 
-// path to settings // TODO: ensure relative to cwd
+// path to settings
 $settings = 'settings.json'; 
 
 // read $settings and extract contents into global namespace (TODO: think.)
