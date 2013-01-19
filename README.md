@@ -101,7 +101,7 @@ Enter target:
 "/Users/bazinga/Desktop/pharci.phar"
 
 Enter include_pattern:
-"*""
+"*"
 
 Enter exclude_pattern:
 ""
