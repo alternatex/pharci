@@ -1,14 +1,14 @@
 #!/usr/bin/php 
 <?php
 
+echo "pharci-make";
+print_r($argv);
+
 // system
 date_default_timezone_set('UTC');
 
 // omit scriptname
 array_shift($argv);
-
-// talk XXX
-if($DEBUG=false) print_r($argv);
 
 // getopts
 $options=''; $longopts=array('watch', 'phar', 'src', 'dest', 'event_type', 'object');
@@ -32,14 +32,4 @@ if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json
 
   // update queue
   file_put_contents($queue_file, (file_exists($queue_file)?"\n":'').json_encode($args), FILE_APPEND);
-
-// debug check XXX
-} elseif($DEBUG=false) {
-
-	// talk
-	echo "\nSKIP\n";
-	echo "\n".(strpos($args['src'], 'queue_')===FALSE)."\n";
-	echo "\n".(strpos($args['src'], 'settings.json')===FALSE)."\n";
-	echo "\n".(strpos($args['src'], '.DS_Store')===FALSE)."\n";
-	echo "\nshizzl".(!($args['event_type']=="modified" && $args['object']=="directory"))."\n";
 }

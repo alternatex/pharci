@@ -2,7 +2,7 @@
   "name": "pharci",    
   "version": "1.0.0",
   "description": "PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications",
-  "keywords": ["phar", "filesystem", "watch", "update", "auto"],
+  "keywords": ["phar", "filesystem", "watch", "update", "automation"],
   "homepage": "http://github.com/alternatex/pharci",
   "author": {
     "name": "Gianni Furger",

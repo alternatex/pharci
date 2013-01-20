@@ -1,14 +1,12 @@
 <?php namespace Pharci;
 
-// TODO: 
-//  - ON ERROR REBUILD // THINK. HANDLE.
-//  - DIFFERENT / BETTER PERFORMING APPROACH TO ACCESS PHAR > KEEP WITHIN LOOP MEM; TMP EXTRACT?!
-
 // initialize stream context
 $context = stream_context_create(
   array('phar' => array('compress' => \Phar::GZ)),
   array('metadata' => array('user' => 'alternatex'))
 );
+
+#echo "kill -9 `ps -ef | grep watchmedo | grep -v grep | awk '{print $2}'`";
 
 // constants
 define('PHARCI_CAP', 5);
@@ -20,28 +18,18 @@ date_default_timezone_set('UTC');
 // helpers
 $_args = null;
 
-function rmdirx($x){  
-  try {
-    if(!file_exists($x)) return false;
-    $it = new \RecursiveDirectoryIterator($x);
-    $files = new \RecursiveIteratorIterator($it,
-                 \RecursiveIteratorIterator::CHILD_FIRST);
-    foreach($files as $file){
-      if ($file->isDir()){
-          rmdir($file->getRealPath());
-      } else {
-          if(file_exists($file->getRealPath()))
-            unlink($file->getRealPath());
-      }
-    }
-  } catch(Exception $ex) {}
-}
-
 // inifinite.
 while(1){ 
-
   // fetch passed epoch queue file(s)
   $queues = glob('/Users/bazinga/pharci-test/queue_*');
+
+  echo "queues count: ".sizeof($queues);
+
+  if(sizeof($queues)>PHARCI_MAX_QUEUES) { 
+    echo "cap limit reached. full rebuild. wait a lil until it's more quiet";                        
+    print `kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;
+    exit;
+  }
 
   // process each > validation/wait/sleep XXX > "thread safety"
   foreach($queues as $queue) {
@@ -59,12 +47,13 @@ while(1){
     $items = explode("\n", file_get_contents($queue));
 
     // determine modification cap reached?
-    if(sizeof($items)>PHARCI_CAP) { 
+    if(sizeof($queues)>PHARCI_MAX_QUEUES) { 
       echo "cap limit reached. full rebuild. wait a lil until it's more quiet";                        
+      print `kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;
       do {
         echo "\n already got more... * \n";
         $queues = $tmp_queues;
-        sleep(5);
+        usleep(1000000);
         $tmp_queues = glob('/Users/bazinga/pharci-test/queue_*');
       } while(sizeof($tmp_queues)>sizeof($queues));
 
@@ -91,9 +80,6 @@ while(1){
         $phar = new \Phar($argv[1]);
         $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
       endif;
-
-      // TODO: think
-      sleep(5);
 
       // continue parent
       break;
@@ -149,4 +135,24 @@ while(1){
       $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
     endif;
   }
+
+  usleep(1000000);
+}
+
+// helper - fs delete
+function rmdirx($x){  
+  try {
+    if(!file_exists($x)) return false;
+    $it = new \RecursiveDirectoryIterator($x);
+    $files = new \RecursiveIteratorIterator($it,
+                 \RecursiveIteratorIterator::CHILD_FIRST);
+    foreach($files as $file){
+      if ($file->isDir()){
+          if(file_exists($file->getRealPath())) rmdir($file->getRealPath());
+      } else {
+          if(file_exists($file->getRealPath()))
+            unlink($file->getRealPath());
+      }
+    }
+  } catch(Exception $ex) {}
 }

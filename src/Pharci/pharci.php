@@ -58,7 +58,7 @@ class Pharci {
       return;
     
     // log
-    // echo '{"watch": "'.$watch.'","phar": "'.$phar.'", "src": "'.$src.'", "dest": "'.$dest.'", "event_type": "'.$event_type.'", "object": "'.$object.'"}';
+    if(false) echo '{"watch": "'.$watch.'","phar": "'.$phar.'", "src": "'.$src.'", "dest": "'.$dest.'", "event_type": "'.$event_type.'", "object": "'.$object.'"}';
 
     // initialize stream context
     $context = stream_context_create(
@@ -73,7 +73,7 @@ class Pharci {
       case Pharci::EVENT_TYPE_CREATED:
       case Pharci::EVENT_TYPE_MODIFIED:
 
-        // only handle files (TODO: think about non-prune empty directories by event? hmm.)
+        // only handle files - TODO: think about non-prune empty directories by event? hmm.
         if($object==Pharci::EVENT_OBJECT_FILE) {
           
           // get fs contents

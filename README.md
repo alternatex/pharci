@@ -3,6 +3,10 @@ Pharci
 
 PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
 
+watchdog approach
+
+watch/make approach
+
 Installation
 ------------
 
@@ -11,7 +15,13 @@ Installation
 * Unix OS
 * PHP (http://php.net)
 * Python (http://www.python.org)
+
 * Watchdog (https://github.com/gorakhargosh/watchdog)
+
+or
+
+* Watch (https://github.com/visionmedia/watch)
+* Make (http://www.gnu.org/software/make/)
 
 ### Configuration
 
