@@ -1,7 +1,7 @@
 Pharci
 =============
 
-PHP development utility to automate replication of files and folders into PHAR-archives by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
+PHP development utility to automate filesystem > phar replication by monitoring filesystem modifications using [watchdog](https://github.com/gorakhargosh/watchdog/)
 
 watchdog approach
 

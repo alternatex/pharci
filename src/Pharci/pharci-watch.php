@@ -1,16 +1,20 @@
 <?php namespace Pharci;
 
+// TODO: fix this. think. perf.
+
+// ...
+require_once(dirname(__FILE__).'/pharci.php');
+
 // initialize stream context
 $context = stream_context_create(
   array('phar' => array('compress' => \Phar::GZ)),
   array('metadata' => array('user' => 'alternatex'))
 );
 
-#echo "kill -9 `ps -ef | grep watchmedo | grep -v grep | awk '{print $2}'`";
-
 // constants
 define('PHARCI_CAP', 5);
 define('PHARCI_MAX_QUEUES', 5);
+define('PHARCI_MESSAGES_CAP_REACHED', '"cap limit reached. full rebuild. wait a lil until it\'s more quiet"');
 
 // settings
 date_default_timezone_set('UTC');
@@ -20,15 +24,16 @@ $_args = null;
 
 // inifinite.
 while(1){ 
+
   // fetch passed epoch queue file(s)
   $queues = glob('/Users/bazinga/pharci-test/queue_*');
 
-  echo "queues count: ".sizeof($queues);
-
-  if(sizeof($queues)>PHARCI_MAX_QUEUES) { 
-    echo "cap limit reached. full rebuild. wait a lil until it's more quiet";                        
-    print `kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;
-    exit;
+  // ...
+  if(false && sizeof($queues)>PHARCI_MAX_QUEUES) { 
+    print PHARCI_MESSAGES_CAP_REACHED;
+    eval('`'.Pharci::PROC_KILLALL.'`');
+    print `kill -9 `.$args['watch_pid'];
+    //exit;
   }
 
   // process each > validation/wait/sleep XXX > "thread safety"
@@ -40,20 +45,23 @@ while(1){
     // determine current here - TODO: think. better or worse if moved to parent loop?
     $current_queue = intval(date('ymdhis', time()));
 
+    //echo "\nprocess queue: $process_queue";
+    //echo "\ncurrent queue: $current_queue\n";
+
     // this should ensure "thread safety". rofl.
-    if(!($process_queue<$current_queue-3)) continue;
+    //if(!($process_queue<$current_queue-3)) continue;
 
     // fetch items
     $items = explode("\n", file_get_contents($queue));
 
     // determine modification cap reached?
-    if(sizeof($queues)>PHARCI_MAX_QUEUES) { 
-      echo "cap limit reached. full rebuild. wait a lil until it's more quiet";                        
-      print `kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;
+    if(false &&  sizeof($queues)>PHARCI_MAX_QUEUES) { 
+      print PHARCI_MESSAGES_CAP_REACHED;
+      print ``.PROC_KILLALL.``;
       do {
         echo "\n already got more... * \n";
         $queues = $tmp_queues;
-        usleep(1000000);
+        sleep(1);
         $tmp_queues = glob('/Users/bazinga/pharci-test/queue_*');
       } while(sizeof($tmp_queues)>sizeof($queues));
 
@@ -61,22 +69,28 @@ while(1){
       foreach($queues as $queue) { if(file_exists($queue)) unlink($queue); }
       
       // remove archive
-      if(file_exists($argv[1])) unlink($argv[1]);
+      //if(file_exists($argv[1])) unlink($argv[1]);
         
       // initialize archive
-      $phar = new \Phar($argv[1], 0, basename($argv[1]));
+      //$phar = new \Phar($argv[1], 0, basename($argv[1]));
     
       // bootstrap (TODO: handle excluded files ?! settings.json/queue_*/...)
-      $phar->buildFromDirectory('/Users/bazinga/pharci-test');
+
+      //$phar2->buildFromDirectory(dirname(__FILE__) . '/project', '/\.php$/');
+
+      // define based on settings based on settings 
+      $phar_regex = '';
+
+      //$phar->buildFromDirectory('/Users/bazinga/pharci-test');
               
       // remove custom settings 
-      if(file_exists('phar://'.$argv[1].'/settings.json')) unlink('phar://'.$argv[1].'/settings.json');
+      //if(file_exists(Pharci::PROTOCOL.$argv[1].Pharci::FILENAME_SETTINGS)) unlink(Pharci::PROTOCOL.$argv[1].Pharci::FILENAME_SETTINGS);
 
       // release
       $phar = null; 
 
       // export XXX
-      if(isset($argv[1])):
+      if(false && isset($argv[1]) && file_exists($argv[1])):
         $phar = new \Phar($argv[1]);
         $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
       endif;
@@ -84,8 +98,12 @@ while(1){
       // continue parent
       break;
     }
+    
+    echo "\ngot queue\n";
 
     foreach($items as $item) {
+
+      echo "\ngot item\n";
       
       // ...
       $args = json_decode($item, true);
@@ -93,9 +111,6 @@ while(1){
       // TODO: remove this
       if(!isset($argv[1])) continue;     
       
-      // ...
-      require_once(dirname(__FILE__).'/pharci.php');
-
       // skip this
       if($args['event_type']==Pharci::EVENT_TYPE_MODIFIED && $args['object']==Pharci::EVENT_OBJECT_FOLDER)
         continue;  
@@ -116,27 +131,26 @@ while(1){
           $phar = null; 
           
           // remove custom settings 
-          unlink('phar://'.$argv[1].'/settings.json');
+          unlink(Pharci::PROTOCOL.$argv[1].Pharci::FILENAME_SETTINGS);
       }
 
       // process event
-      Pharci::ProcessEvent($args['watch'], $argv[1], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
+      Pharci::ProcessEvent($args['watch'], $argv[1], $args['pattern'], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
     }
 
     // cleanup
     if(file_exists($queue)) unlink($queue);   
     
     // debug - cleanup 
-    rmdirx('/Users/bazinga/Desktop/out');
-    
-    // debug - export
-    if(isset($argv[1])):    
-      $phar = new \Phar($argv[1]);
-      $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
-    endif;
+    false && rmdirx('/Users/bazinga/Desktop/out');
   }
 
-  usleep(1000000);
+  // debug - export
+  if(true && isset($argv[1]) && file_exists($argv[1])):
+    $phar = new \Phar($argv[1]);
+    $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+  endif;
+  //usleep(500);
 }
 
 // helper - fs delete

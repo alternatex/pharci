@@ -11,7 +11,7 @@ array_shift($argv);
 if($DEBUG=false) print_r($argv);
 
 // getopts
-$options=''; $longopts=array('watch', 'phar', 'src', 'dest', 'event_type', 'object');
+$options=''; $longopts=array('watch_pid', 'watch', 'phar', 'src', 'pattern', 'dest', 'event_type', 'object');
 
 // getopt helpers - initialize
 false && array_map(function($option){
@@ -23,7 +23,8 @@ false && array_map(function($option){
 
 // extract arguments
 $args = array_combine($longopts, $argv); // getopt($options, $longopts);
-
+echo "PID KICKER".$args['watch_pid'];
+print_r($args);
 // skip / process
 if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json')===FALSE && strpos($args['src'], '.DS_Store')===FALSE && (!($args['event_type']=="modified" && $args['object']=="directory"))) { 
 
@@ -33,13 +34,6 @@ if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json
   // update queue
   file_put_contents($queue_file, (file_exists($queue_file)?"\n":'').json_encode($args), FILE_APPEND);
 
-// debug check XXX
-} elseif($DEBUG=false) {
-
-	// talk
-	echo "\nSKIP\n";
-	echo "\n".(strpos($args['src'], 'queue_')===FALSE)."\n";
-	echo "\n".(strpos($args['src'], 'settings.json')===FALSE)."\n";
-	echo "\n".(strpos($args['src'], '.DS_Store')===FALSE)."\n";
-	echo "\nshizzl".(!($args['event_type']=="modified" && $args['object']=="directory"))."\n";
+  echo "queue file written: $queue_file!".file_exists($queue_file);
 }
+echo "\nkickde xxx \n";

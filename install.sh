@@ -12,7 +12,7 @@ else
 	
 	# ...
 	bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/install.sh -O -)
-	#exit 101
+	exit -1
 fi
 
 # check node  
@@ -24,7 +24,7 @@ if [[ -a "$(which node)" ]]
 else
 	# shout out loud
 	printf "\e[1;31mnode not found.\e[0m   $1\n"
-	#exit 102
+	exit -1
 fi
 
 # check npm
@@ -36,7 +36,7 @@ if [[ -a "$(which npm)" ]]
 else
 	# shout out loud
 	printf "\e[1;31mnpm not found.\e[0m   $1\n"
-	#exit 103	
+	exit -1	
 fi
 
 # check bazinga

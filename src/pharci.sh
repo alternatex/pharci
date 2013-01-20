@@ -8,6 +8,8 @@
 # ADD GROWL MESSAGES?
 # FINALIZE / CLEANUP WATCH SCRIPT 
 # REMOVE HC*
+# DEBUG HELPER MIRROR ACTIONS IN OUT DIR *
+
 set +v
 #php -r 'print `kill -9 \`ps -ef | grep watchmedo | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;'
 #php -r 'print `kill -9 \`ps -ef | grep pharci-watch | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;'
@@ -87,7 +89,10 @@ export phar_target="$pharci_target" # $2
 printf "\e[32mmonitoring \e[0m'$pharci_source'\e[32m targeting \e[0m'$pharci_target'\e[32m ...\e[0m\n"
 
 # start background process - iterate changes * - optimize approx approach 
-echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
+true && echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
+
+pharci_watch_pid=$! 
+pharci_watch_pid="test"
 
 echo "TODO: get process id's XXX ensure all process terminate *"
 
@@ -98,8 +103,8 @@ echo "TODO: get process id's XXX ensure all process terminate *"
 
 # launch watchdog // variant <php>
 watchmedo shell-command \
-    --interval=1000 \
-    --wait \
     --patterns="$pharci_include_pattern" \
     --recursive \
-    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_source}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source"
+    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_watch_pid} " "${pharci_source}" "${pharci_include_pattern}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source"
+#    --interval=1 \
+#    --wait \    
