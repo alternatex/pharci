@@ -19,11 +19,16 @@
 // initialize
 if(!defined('PHARCI_INITIALIZED') && define('PHARCI_INITIALIZED', true)):
 
+// TODO: debug switches / helper tmp directory fs sync?! > settings XXX
+
 // ... 
 global $args;
 
 // include configuration
 require_once(dirname(__FILE__).'/settings.php');
+
+define('PHARCI_PROCESS_PHAR', false);
+define('PHARCI_PROCESS_FSCOPY', true);
 
 // core
 class Pharci {
@@ -39,6 +44,11 @@ class Pharci {
   const EVENT_OBJECT_FOLDER = 'directory';
 
   const PROC_KILLALL = 'kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1';
+
+  const LIMIT_CAP = 5;
+  const LIMIT_QUEUE = 5;
+
+  const MESSAGE_CAP_REACHED = '"cap limit reached. full rebuild. wait a lil until it\'s more quiet"';
 
   // default file patterns
   const INCLUDE_PATTERN = '*';
@@ -90,9 +100,8 @@ class Pharci {
           $src_contents = file_get_contents($src);        
 
           // update phar contents 
-          //file_put_contents(Pharci::PROTOCOL.$phar.$phar_source, $src_contents);//, 0, $context);
-          echo "\nfile put contents: /Users/bazinga/Desktop/out/$phar_source\n";
-          file_put_contents("/Users/bazinga/Desktop/out/".$phar_source, $src_contents);
+          PHARCI_PROCESS_PHAR && file_put_contents(Pharci::PROTOCOL.$phar.$phar_source, $src_contents);//, 0, $context);          
+          PHARCI_PROCESS_FSCOPY && file_put_contents("/Users/bazinga/Desktop/out/".$phar_source, $src_contents);
         }
 
         break;
@@ -107,19 +116,19 @@ class Pharci {
           $src_contents = file_get_contents($dest);
           
           // update phar contents 
-          //file_put_contents(Pharci::PROTOCOL.$phar.$phar_target, $src_contents);//, 0, $context);
-          file_put_contents("/Users/bazinga/Desktop/out/".$phar_target, $src_contents);
+          PHARCI_PROCESS_PHAR && file_put_contents(Pharci::PROTOCOL.$phar.$phar_target, $src_contents);//, 0, $context);
+          PHARCI_PROCESS_FSCOPY && file_put_contents("/Users/bazinga/Desktop/out/".$phar_target, $src_contents);
 
           // cleanup on file move
-          //if(file_exists(Pharci::PROTOCOL.$phar.$phar_source)) unlink(Pharci::PROTOCOL.$phar.$phar_source);
-          if(file_exists("/Users/bazinga/Desktop/out/".$phar_source)) unlink("/Users/bazinga/Desktop/out/".$phar_source);          
+          PHARCI_PROCESS_PHAR && (file_exists(Pharci::PROTOCOL.$phar.$phar_source)) && unlink(Pharci::PROTOCOL.$phar.$phar_source);
+          PHARCI_PROCESS_FSCOPY && (file_exists("/Users/bazinga/Desktop/out/".$phar_source)) && unlink("/Users/bazinga/Desktop/out/".$phar_source);          
 
         // is folder?
         } elseif($object==Pharci::EVENT_OBJECT_FOLDER) {
           
           // ...
-          //rmdirx(Pharci::PROTOCOL.$phar.$phar_source);
-          rmdirx("/Users/bazinga/Desktop/out/".$phar_source);                    
+          //_rmdir(Pharci::PROTOCOL.$phar.$phar_source);
+          _rmdir("/Users/bazinga/Desktop/out/".$phar_source);                    
         }       
         break;
 
@@ -130,13 +139,13 @@ class Pharci {
         if($object==Pharci::EVENT_OBJECT_FILE) {
 
           // explicit removal (might have been handled already by event_type `moved`)
-          //if(file_exists(Pharci::PROTOCOL.$phar.$phar_source)) unlink(Pharci::PROTOCOL.$phar.$phar_source);
-          if(file_exists("/Users/bazinga/Desktop/out/".$phar_source)) unlink("/Users/bazinga/Desktop/out/".$phar_source);
+          PHARCI_PROCESS_PHAR && (file_exists(Pharci::PROTOCOL.$phar.$phar_source)) && unlink(Pharci::PROTOCOL.$phar.$phar_source);
+          PHARCI_PROCESS_FSCOPY  && (file_exists("/Users/bazinga/Desktop/out/".$phar_source)) && unlink("/Users/bazinga/Desktop/out/".$phar_source);
           
         } elseif($object==Pharci::EVENT_OBJECT_FOLDER) {
 
           // event also fired per file on directory removal - handle only these events.
-          false && rmdirx(Pharci::PROTOCOL.$phar.$phar_source);
+          false && _rmdir(Pharci::PROTOCOL.$phar.$phar_source);
         }       
       default:
         break;

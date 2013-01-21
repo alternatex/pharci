@@ -8,11 +8,8 @@
 # ADD GROWL MESSAGES?
 # FINALIZE / CLEANUP WATCH SCRIPT 
 # REMOVE HC*
-# DEBUG HELPER MIRROR ACTIONS IN OUT DIR *
 
 set +v
-#php -r 'print `kill -9 \`ps -ef | grep watchmedo | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;'
-#php -r 'print `kill -9 \`ps -ef | grep pharci-watch | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1 `;'
 
 # internals
 export PHARCI=~/.pharci
@@ -81,30 +78,28 @@ fi
 # include custom configuration 
 source .pharcix/settings.sh && rm -rf .bazingac/settings.sh.tmp && rm -rf .pharcix/settings.sh.tmp
 
-# use bazinga settings
-export phar_source="$pharci_source" # $( cd `dirname $1` >/dev/null; pwd )
-export phar_target="$pharci_target" # $2
-
 # shout out loud
 printf "\e[32mmonitoring \e[0m'$pharci_source'\e[32m targeting \e[0m'$pharci_target'\e[32m ...\e[0m\n"
 
 # start background process - iterate changes * - optimize approx approach 
 true && echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
 
-pharci_watch_pid=$! 
-pharci_watch_pid="test"
-
-echo "TODO: get process id's XXX ensure all process terminate *"
+# store watch pid (TODO: is this really the way to determine a forked child process (is it?!))
+export pharci_watch_pid=$! 
 
 # <make watch>
 #watch make
-
 #watch make clean once in a while?
 
 # launch watchdog // variant <php>
 watchmedo shell-command \
     --patterns="$pharci_include_pattern" \
+    --wait \
     --recursive \
-    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_watch_pid} " "${pharci_source}" "${pharci_include_pattern}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source"
-#    --interval=1 \
+    --command='echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
+
+#    --interval=$pharci_interval \
 #    --wait \    
+#    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_watch_pid} " "${pharci_source}" "${pharci_include_pattern}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$pharci_source"
+
+# TODO: termination helper? os-solved? check. think.

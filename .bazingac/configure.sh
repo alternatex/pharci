@@ -10,6 +10,7 @@ bazinga_custom_json="settings.json"
 function bazinga_gather(){
 	bazinga_input "source" "source"	
 	bazinga_input "target" "target"		
+	bazinga_input "interval" "interval"		
 	bazinga_input "include_pattern" "include_pattern"
 	bazinga_input "exclude_pattern" "exclude_pattern"	
 	bazinga_input "updates_interval" "updates_interval"	
