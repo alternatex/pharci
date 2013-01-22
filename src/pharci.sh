@@ -1,6 +1,6 @@
   #!/bin/bash
 
-# ENSURE PHP PROC KILLED WHEN SCRIPT EXISTS
+# ENSURE PHP PROC KILLED WHEN SCRIPT EXITS
 # ENSURE NO PROCESS RUNNING TARGETING SAME OUTFILE
 # IMPLEMENT / USE ALL SETTINGS *
 # ON ERROR REBUILD // THINK. HANDLE.
@@ -96,7 +96,7 @@ watchmedo shell-command \
     --patterns="$pharci_include_pattern" \
     --wait \
     --recursive \
-    --command='echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
+    --command='growlnotify -m "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" && echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
 
 #    --interval=$pharci_interval \
 #    --wait \    

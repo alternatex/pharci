@@ -14,12 +14,10 @@
 * ------------------------------------------------------------------ 
 */
 
-// TODO: fix this. think. perf. (read/write..)
+// TODO: fix this. think. perf. (read/write..) > stream prolly just too heavy. check tar/gz streaming?!
 
 // initialize
 if(!defined('PHARCI_INITIALIZED') && define('PHARCI_INITIALIZED', true)):
-
-// TODO: debug switches / helper tmp directory fs sync?! > settings XXX
 
 // ... 
 global $args;
@@ -27,44 +25,59 @@ global $args;
 // include configuration
 require_once(dirname(__FILE__).'/settings.php');
 
-define('PHARCI_PROCESS_PHAR', false);
-define('PHARCI_PROCESS_FSCOPY', true);
-
 // core
 class Pharci {
 
+  // attributes
+  const ATTRIBUTE_DEST        = 'dest';
+  const ATTRIBUTE_EVENT_TYPE  = 'event_type';
+  const ATTRIBUTE_OBJECT      = 'object';
+  const ATTRIBUTE_PHAR        = 'phar';
+  const ATTRIBUTE_SRC         = 'src';
+  const ATTRIBUTE_WATCH       = 'watch';
+
   // event types
-  const EVENT_TYPE_CREATED  = 'created';
-  const EVENT_TYPE_MODIFIED = 'modified';
-  const EVENT_TYPE_MOVED    = 'moved';
-  const EVENT_TYPE_DELETED  = 'deleted';
+  const EVENT_TYPE_CREATED    = 'created';
+  const EVENT_TYPE_MODIFIED   = 'modified';
+  const EVENT_TYPE_MOVED      = 'moved';
+  const EVENT_TYPE_DELETED    = 'deleted';
   
   // event objects
-  const EVENT_OBJECT_FILE   = 'file';
-  const EVENT_OBJECT_FOLDER = 'directory';
+  const EVENT_OBJECT_FILE     = 'file';
+  const EVENT_OBJECT_FOLDER   = 'directory';
 
-  const PROC_KILLALL = 'kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1';
+  // patterns
+  const EXCLUDE_PATTERN       = '*.tmp';
+  const EXCLUDE_PATTERN_QUEUE = 'queue_';
+  const INCLUDE_PATTERN_ALL   = '*';
+  const INCLUDE_PATTERN       = '*';
 
-  const LIMIT_CAP = 5;
+  // filesystem
+  const FILENAME_SETTINGS     = 'settings.json';
+  const FILENAME_OUTDIRECTORY = '/Users/bazinga/Desktop/out/';
+
+  // limits
+  const LIMIT_CAP   = 5;
   const LIMIT_QUEUE = 5;
 
+  // messages
   const MESSAGE_CAP_REACHED = '"cap limit reached. full rebuild. wait a lil until it\'s more quiet"';
 
-  // default file patterns
-  const INCLUDE_PATTERN = '*';
-  const EXCLUDE_PATTERN = '';
+  // system
+  const PROC_KILLALL    = 'kill -9 \`ps -ef | grep "watchmedo" | grep -v grep | awk "{print $2}"\`  > /dev/null 2>&1';
+  const PROC_SYNC_PHAR  = true;
+  const PROC_SYNC_FS    = true;
 
-  // miscellaneous
-  const PROTOCOL = 'phar://';
-  const FILENAME_SETTINGS = 'settings.json';
+  // miscellaneous  
   const LOGGER_TRESHOLD = 'debug';
+  const PROTOCOL = 'phar://';
 
   // helpers
   private static $initialized = false;
   private static $logger = null;
   
   // process filesystem event
-  public static function ProcessEvent($watch, $phar, $src, $pattern=Pharci::INCLUDE_PATTERN, $dest, $event_type, $object, $log=Pharci::LOGGER_TRESHOLD){
+  public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){
     
     // todo: remove this - inject ... *    
     global $args;    
@@ -74,11 +87,11 @@ class Pharci {
     $phar_target = str_replace($watch, '', $dest);
     
     // skip custom
-    if(strpos($phar_source, 'queue_')!==false || basename($phar_source)==Pharci::FILENAME_SETTINGS || basename($phar_source)=='.DS_Store')
+    if(strpos($phar_source, self::EXCLUDE_PATTERN_QUEUE)!==false || basename($phar_source)==self::FILENAME_SETTINGS || basename($phar_source)=='.DS_Store')
       return;
     
     // log
-    if(true) echo '{"watch": "'.$watch.'","phar": "'.$phar.'", "src": "'.$src.'", "dest": "'.$dest.'", "event_type": "'.$event_type.'", "object": "'.$object.'"}';
+    if(true) echo '{"'.self::ATTRIBUTE_WATCH.'": "'.$watch.'","'.self::ATTRIBUTE_PHAR.'": "'.$phar.'", "'.self::ATTRIBUTE_SRC.'": "'.$src.'", "'.self::ATTRIBUTE_DEST.'": "'.$dest.'", "'.self::ATTRIBUTE_EVENT_TYPE.'": "'.$event_type.'", "'.self::ATTRIBUTE_OBJECT.'": "'.$object.'"}';
 
     // initialize stream context
     $context = stream_context_create(
@@ -90,62 +103,62 @@ class Pharci {
     switch($event_type){
 
       // read/write
-      case Pharci::EVENT_TYPE_CREATED:
-      case Pharci::EVENT_TYPE_MODIFIED:
+      case self::EVENT_TYPE_CREATED:
+      case self::EVENT_TYPE_MODIFIED:
 
         // only handle files
-        if($object==Pharci::EVENT_OBJECT_FILE) {
+        if($object==self::EVENT_OBJECT_FILE) {
           
           // get fs contents
           $src_contents = file_get_contents($src);        
 
           // update phar contents 
-          PHARCI_PROCESS_PHAR && file_put_contents(Pharci::PROTOCOL.$phar.$phar_source, $src_contents);//, 0, $context);          
-          PHARCI_PROCESS_FSCOPY && file_put_contents("/Users/bazinga/Desktop/out/".$phar_source, $src_contents);
+          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_source, $src_contents);//, 0, $context);          
+          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_source, $src_contents);
         }
 
         break;
       
       // file move event -> copy / cleanup 
-      case Pharci::EVENT_TYPE_MOVED:
+      case self::EVENT_TYPE_MOVED:
 
         // is file?
-        if($object==Pharci::EVENT_OBJECT_FILE) {
+        if($object==self::EVENT_OBJECT_FILE) {
           
           // get fs contents
           $src_contents = file_get_contents($dest);
           
           // update phar contents 
-          PHARCI_PROCESS_PHAR && file_put_contents(Pharci::PROTOCOL.$phar.$phar_target, $src_contents);//, 0, $context);
-          PHARCI_PROCESS_FSCOPY && file_put_contents("/Users/bazinga/Desktop/out/".$phar_target, $src_contents);
+          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_target, $src_contents);//, 0, $context);
+          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_target, $src_contents);
 
           // cleanup on file move
-          PHARCI_PROCESS_PHAR && (file_exists(Pharci::PROTOCOL.$phar.$phar_source)) && unlink(Pharci::PROTOCOL.$phar.$phar_source);
-          PHARCI_PROCESS_FSCOPY && (file_exists("/Users/bazinga/Desktop/out/".$phar_source)) && unlink("/Users/bazinga/Desktop/out/".$phar_source);          
+          self::PROC_SYNC_PHAR && (file_exists(self::PROTOCOL.$phar.$phar_source)) && unlink(self::PROTOCOL.$phar.$phar_source);
+          self::PROC_SYNC_FS && (file_exists(self::FILENAME_OUTDIRECTORY.$phar_source)) && unlink(self::FILENAME_OUTDIRECTORY.$phar_source);          
 
         // is folder?
-        } elseif($object==Pharci::EVENT_OBJECT_FOLDER) {
+        } elseif($object==self::EVENT_OBJECT_FOLDER) {
           
           // ...
-          //_rmdir(Pharci::PROTOCOL.$phar.$phar_source);
-          _rmdir("/Users/bazinga/Desktop/out/".$phar_source);                    
+          //_rmdir(self::PROTOCOL.$phar.$phar_source);
+          _rmdir(self::FILENAME_OUTDIRECTORY.$phar_source);                    
         }       
         break;
 
       // cleanup
-      case Pharci::EVENT_TYPE_DELETED:
+      case self::EVENT_TYPE_DELETED:
 
         // is file?
-        if($object==Pharci::EVENT_OBJECT_FILE) {
+        if($object==self::EVENT_OBJECT_FILE) {
 
           // explicit removal (might have been handled already by event_type `moved`)
-          PHARCI_PROCESS_PHAR && (file_exists(Pharci::PROTOCOL.$phar.$phar_source)) && unlink(Pharci::PROTOCOL.$phar.$phar_source);
-          PHARCI_PROCESS_FSCOPY  && (file_exists("/Users/bazinga/Desktop/out/".$phar_source)) && unlink("/Users/bazinga/Desktop/out/".$phar_source);
+          self::PROC_SYNC_PHAR && (file_exists(self::PROTOCOL.$phar.$phar_source)) && unlink(self::PROTOCOL.$phar.$phar_source);
+          self::PROC_SYNC_FS  && (file_exists(self::FILENAME_OUTDIRECTORY.$phar_source)) && unlink(self::FILENAME_OUTDIRECTORY.$phar_source);
           
-        } elseif($object==Pharci::EVENT_OBJECT_FOLDER) {
+        } elseif($object==self::EVENT_OBJECT_FOLDER) {
 
           // event also fired per file on directory removal - handle only these events.
-          false && _rmdir(Pharci::PROTOCOL.$phar.$phar_source);
+          false && _rmdir(self::PROTOCOL.$phar.$phar_source);
         }       
       default:
         break;
@@ -154,10 +167,10 @@ class Pharci {
 
   // helper - extract $src from archive
   public static function Extract($phar, $src=self::INCLUDE_PATTERN){
-    if($src=='*') {
-      echo "Unpack all";
+    if($src==self::INCLUDE_PATTERN_ALL) {
+      // ...
     } else {
-      echo "Unpack $src";
+      // ...
     }
   }   
 }

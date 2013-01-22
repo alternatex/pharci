@@ -6,6 +6,17 @@
 // TODO: fix performance * - fs osx vs. *nix
 // TODO: fix performance * - fs osx vs. *nix
 
+// check phar existance
+// created if not avail and then require it.... hoping that thingy will be held accessible then...
+// check phar existance
+// created if not avail and then require it.... hoping that thingy will be held accessible then...
+// check phar existance
+// created if not avail and then require it.... hoping that thingy will be held accessible then...
+// check phar existance
+// created if not avail and then require it.... hoping that thingy will be held accessible then...
+// check phar existance
+// created if not avail and then require it.... hoping that thingy will be held accessible then...
+
 // ... 
 require_once(dirname(__FILE__).'/pharci.php');
 
@@ -109,7 +120,7 @@ while(1){
     if(file_exists($queue)) unlink($queue);   
     
     // debug - cleanup 
-    PHARCI_DEBUG && _rmdir('/Users/bazinga/Desktop/out');
+    PHARCI_DEBUG && _rmdir(pharci::FILENAME_OUTDIRECTORY);
   }
 
   // debug - export
@@ -142,7 +153,7 @@ function _import($argv, $force=false){
 // helper - phar export
 function _export($argv){
   $phar = new \Phar($argv[1]);
-  $phar->extractTo ('/Users/bazinga/Desktop/out', null, true);
+  $phar->extractTo (pharci::FILENAME_OUTDIRECTORY, null, true);
 }
 
 // helper - fs delete

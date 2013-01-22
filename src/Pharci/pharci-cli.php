@@ -39,4 +39,3 @@ if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json
   // ..
   PHARCI_DEBUG && echo "queue file written: $queue_file!".file_exists($queue_file);
 }
-echo "\nkickde xxx \n";
