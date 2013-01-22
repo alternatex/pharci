@@ -32,9 +32,11 @@ class Pharci {
   const ATTRIBUTE_DEST        = 'dest';
   const ATTRIBUTE_EVENT_TYPE  = 'event_type';
   const ATTRIBUTE_OBJECT      = 'object';
+  const ATTRIBUTE_PATTERN     = 'pattern';
   const ATTRIBUTE_PHAR        = 'phar';
   const ATTRIBUTE_SRC         = 'src';
   const ATTRIBUTE_WATCH       = 'watch';
+  const ATTRIBUTE_WATCH_PID   = 'watch_pid';
 
   // event types
   const EVENT_TYPE_CREATED    = 'created';
@@ -48,14 +50,15 @@ class Pharci {
 
   // patterns
   const EXCLUDE_PATTERN       = '*.tmp';
-  const EXCLUDE_PATTERN_QUEUE = 'queue_';
-  const INCLUDE_PATTERN_ALL   = '*';
   const INCLUDE_PATTERN       = '*';
+  const INCLUDE_PATTERN_ALL   = '*';
 
   // filesystem
-  const FILENAME_SETTINGS     = 'settings.json';
   const FILENAME_OUTDIRECTORY = '/Users/bazinga/Desktop/out/';
-
+  const FILENAME_QUEUE_PREFIX = 'queue_';
+  const FILENAME_QUEUE_SUFFIX = 'ymdhis';
+  const FILENAME_SETTINGS     = 'settings.json';
+  
   // limits
   const LIMIT_CAP   = 5;
   const LIMIT_QUEUE = 5;
@@ -87,7 +90,7 @@ class Pharci {
     $phar_target = str_replace($watch, '', $dest);
     
     // skip custom
-    if(strpos($phar_source, self::EXCLUDE_PATTERN_QUEUE)!==false || basename($phar_source)==self::FILENAME_SETTINGS || basename($phar_source)=='.DS_Store')
+    if(strpos($phar_source, self::FILENAME_QUEUE_PREFIX)!==false || basename($phar_source)==self::FILENAME_SETTINGS || basename($phar_source)=='.DS_Store')
       return;
     
     // log

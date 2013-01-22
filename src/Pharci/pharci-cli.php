@@ -1,41 +1,27 @@
 #!/usr/bin/php 
 <?php
 
+// ... 
+require_once(dirname(__FILE__).'/pharci.php');
+
 // system
 date_default_timezone_set('UTC');
 
 // omit scriptname
 array_shift($argv);
 
-// ..
-define('PHARCI_DEBUG', false);
-
-// ..
-if(PHARCI_DEBUG) print_r($argv);
-
 // getopts
-$options=''; $longopts=array('watch_pid', 'watch', 'phar', 'src', 'pattern', 'dest', 'event_type', 'object');
-
-// getopt helpers - initialize
-false && array_map(function($option){
-
-  // set shortopt as first char o longopt (yeah, I know..)
-  $options.=substr($option, 0, 1).':';
-
-}, $longopts);
+$options=''; $longopts=array(Pharci::ATTRIBUTE_WATCH_PID, Pharci::ATTRIBUTE_WATCH, Pharci::ATTRIBUTE_PHAR , Pharci::ATTRIBUTE_SRC, Pharci::ATTRIBUTE_PATTERN, Pharci::ATTRIBUTE_DEST, Pharci::ATTRIBUTE_EVENT_TYPE, Pharci::ATTRIBUTE_OBJECT);
 
 // extract arguments
-$args = array_combine($longopts, $argv); // getopt($options, $longopts);
+$args = array_combine($longopts, $argv);
 
 // skip / process
-if(strpos($args['src'], 'queue_')===FALSE && strpos($args['src'], 'settings.json')===FALSE && strpos($args['src'], '.DS_Store')===FALSE && (!($args['event_type']=="modified" && $args['object']=="directory"))) { 
+if(strpos($args[Pharci::ATTRIBUTE_SRC], Pharci::FILENAME_QUEUE_PREFIX)===FALSE && strpos($args[Pharci::ATTRIBUTE_SRC], Pharci::FILENAME_SETTINGS)===FALSE && strpos($args[Pharci::ATTRIBUTE_SRC], '.DS_Store')===FALSE && (!($args[Pharci::ATTRIBUTE_EVENT_TYPE]==Pharci::EVENT_TYPE_MODIFIED && $args[Pharci::ATTRIBUTE_OBJECT]==Pharci::EVENT_OBJECT_FOLDER))) { 
 
   // determine epoch
-  $queue_file = 'queue_'.date('ymdhis', time());
+  $queue_file = Pharci::FILENAME_QUEUE_PREFIX.date(Pharci::FILENAME_QUEUE_SUFFIX, time());
 
   // update queue
   file_put_contents($queue_file, (file_exists($queue_file)?"\n":'').json_encode($args), FILE_APPEND);
-
-  // ..
-  PHARCI_DEBUG && echo "queue file written: $queue_file!".file_exists($queue_file);
 }

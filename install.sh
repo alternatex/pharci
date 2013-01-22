@@ -2,23 +2,6 @@
 
 # system_profiler SPSoftwareDataType
 
-# check growl
-use_growlnotifiy=false
-if [[ -a "$(which growlnotify)" ]] 
-	then
-	use_growlnotifiy=true
-	growlnotify -m "growlnotify available:$use_growlnotifiy 1" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 2" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 3" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 4" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 5" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 6" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 7" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 8" -d test
-	growlnotify -m "growlnotify available:$use_growlnotifiy 9" -d test
-fi
-printf "\e[32mgrowlnotify available:\e[0m $use_growlnotifiy\n"
-
 # check installation
 if [[ -a "$(which shinst)" ]]
   then 

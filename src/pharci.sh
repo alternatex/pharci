@@ -84,12 +84,20 @@ printf "\e[32mmonitoring \e[0m'$pharci_source'\e[32m targeting \e[0m'$pharci_tar
 # start background process - iterate changes * - optimize approx approach 
 echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
 
-# store watch pid (TODO: is this really the way to determine a forked child process (is it?!))
+# store watch pid
 export pharci_watch_pid=$! 
 
-# launch watchdog // variant <php>
+# launch watchdog // variant <shell>
 watchmedo shell-command \
     --patterns="$pharci_include_pattern" \
     --wait \
     --recursive \
     --command='growlnotify -m "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" && echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
+
+# launch watchdog // variant <php>
+false && watchmedo shell-command \
+    --interval=1000 \
+    --wait \
+    --patterns="$pharci_include_pattern" \
+    --recursive \
+    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_source}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source"
