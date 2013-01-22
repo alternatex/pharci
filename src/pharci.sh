@@ -82,14 +82,10 @@ source .pharcix/settings.sh && rm -rf .bazingac/settings.sh.tmp && rm -rf .pharc
 printf "\e[32mmonitoring \e[0m'$pharci_source'\e[32m targeting \e[0m'$pharci_target'\e[32m ...\e[0m\n"
 
 # start background process - iterate changes * - optimize approx approach 
-true && echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
+echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
 
 # store watch pid (TODO: is this really the way to determine a forked child process (is it?!))
 export pharci_watch_pid=$! 
-
-# <make watch>
-#watch make
-#watch make clean once in a while?
 
 # launch watchdog // variant <php>
 watchmedo shell-command \
@@ -97,9 +93,3 @@ watchmedo shell-command \
     --wait \
     --recursive \
     --command='growlnotify -m "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" && echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
-
-#    --interval=$pharci_interval \
-#    --wait \    
-#    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_watch_pid} " "${pharci_source}" "${pharci_include_pattern}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$pharci_source"
-
-# TODO: termination helper? os-solved? check. think.
