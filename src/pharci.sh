@@ -1,4 +1,4 @@
-  #!/bin/bash
+#!/bin/bash
 
 # ENSURE PHP PROC KILLED WHEN SCRIPT EXITS
 # ENSURE NO PROCESS RUNNING TARGETING SAME OUTFILE
@@ -82,7 +82,7 @@ source .pharcix/settings.sh && rm -rf .bazingac/settings.sh.tmp && rm -rf .pharc
 printf "\e[32mmonitoring \e[0m'$pharci_source'\e[32m targeting \e[0m'$pharci_target'\e[32m ...\e[0m\n"
 
 # start background process - iterate changes * - optimize approx approach 
-echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
+false && echo "starting background process" && php "${PHARCI}/src/Pharci/pharci-watch.php" "$pharci_target" &
 
 # store watch pid
 export pharci_watch_pid=$! 
