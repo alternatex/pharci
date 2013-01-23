@@ -4,10 +4,10 @@
 # ENSURE NO PROCESS RUNNING TARGETING SAME OUTFILE
 # IMPLEMENT / USE ALL SETTINGS *
 # ON ERROR REBUILD // THINK. HANDLE.
-# DIFFERENT / BETTER PERFORMING APPROACH TO ACCESS PHAR > KEEP WITHIN LOOP MEM; TMP EXTRACT?!
-# ADD GROWL MESSAGES?
 # FINALIZE / CLEANUP WATCH SCRIPT 
-# REMOVE HC*
+
+# TODO NEXT:
+# REMOVE HC* - almost done » pharci-watch.php to go
 
 set +v
 
@@ -16,32 +16,11 @@ export PHARCI=~/.pharci
 export PHARCI_CWD="`pwd`"
 export PHARCI_VERSION='1.0.0'
 
-# configure
-pharci_configure() {
+# require custom
+source $BAZINGA_INSTALL_DIR/lib/custom.sh
 
-  # internals
-  BAZINGA_HOME="`dirname $1`/.." && cd $BAZINGA_HOME
-  BAZINGA_INSTALL="`which bazinga 2>&1`"
-  BAZINGA_INSTALL_DIR="`dirname $BAZINGA_INSTALL 2>&1`/.."
-
-  # include core
-  source $BAZINGA_INSTALL_DIR/lib/bazinga.sh
-
-  # intialize / gather custom configuration
-  bazinga_init $bazinga_namespace
-
-  # shizzl. don't look. todo » solve overwrite data-loss » could be more sexy, right?
-  bazinga_custom="${bazinga_custom}.tmp"
-
-  # gather custom configuration
-  bazinga_gather
-
-  # replace configurations - write new configuration to disk (actually replacing conf w/ temporary one)
-  bazinga_flush
-
-  # dynamic export / convert environment variables as json w/ php-helper
-  php $BAZINGA_INSTALL_DIR/mod/json/json.php $bazinga_namespace $bazinga_custom_json
-}
+# wrap
+pharci_configure=function(){ bazinga_configure; }
 
 # say hi
 printf "\e[1;31m"
@@ -98,11 +77,3 @@ watchmedo shell-command \
     --wait \
     --recursive \
     --command='growlnotify -m "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" && echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}" >> ~/queue.txt' "$pharci_source"
-
-# launch watchdog // variant <php>
-false && watchmedo shell-command \
-    --interval=1000 \
-    --wait \
-    --patterns="$pharci_include_pattern" \
-    --recursive \
-    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_source}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source"

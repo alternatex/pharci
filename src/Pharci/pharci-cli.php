@@ -1,5 +1,18 @@
 #!/usr/bin/php 
-<?php
+<?php 
+
+/* «bash inclusion snippet»
+# ---------------------------------------------------------
+# launch watchdog // variant <php>
+# ---------------------------------------------------------
+watchmedo shell-command \
+    --interval=1000 \
+    --wait \
+    --patterns="$pharci_include_pattern" \
+    --recursive \
+    --command='${PHARCI}/src/Pharci/pharci-cli.php "${pharci_source}" "${pharci_target}" "${watch_src_path}" "${watch_dest_path}" "${watch_event_type}" "${watch_object}"' "$phar_source" 
+# ---------------------------------------------------------    
+*/	    
 
 // ... 
 require_once(dirname(__FILE__).'/pharci.php');

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# system_profiler SPSoftwareDataType
-
 # check installation
 if [[ -a "$(which shinst)" ]]
   then 
@@ -10,6 +8,17 @@ else
 	printf "\e[1;31mshinst not found.\e[0m \n"
 	bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/install.sh -O -)
 	exit -1
+fi
+
+# check bazinga
+if [[ -a "$(which bazinga)" ]]
+  then 
+	printf "\e[32mbazinga found.\e[0m \n"
+else
+	# install dependency
+	printf "\e[32minstalling bazinga...\e[0m \n"
+	shinst install alternatex/bazinga
+	printf "\e[32mdone.\e[0m   $1\n"
 fi
 
 # check node  
@@ -28,17 +37,6 @@ if [[ -a "$(which npm)" ]]
 else
 	printf "\e[1;31mnpm not found.\e[0m \n"
 	exit -1	
-fi
-
-# check bazinga
-if [[ -a "$(which bazinga)" ]]
-  then 
-	printf "\e[32mbazinga found.\e[0m \n"
-else
-	# install dependency
-	printf "\e[32minstalling bazinga...\e[0m \n"
-	shinst install alternatex/bazinga
-	printf "\e[32mdone.\e[0m   $1\n"
 fi
 
 # install npm/component dependencies
