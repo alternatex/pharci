@@ -51,8 +51,13 @@ echo "
 -----------------------------------------"
 printf "\e[0m"
 
-# include configuration (if any)
-source $PHARCI/.bazingac/configure.sh
+# preset avail?
+if [[ -a "$PHARCI/.bazingac/configure.sh" ]]
+  then 
+  
+  # include configuration
+  source $PHARCI/.bazingac/configure.sh
+fi
 
 # move back to directory where we started at
 cd $PHARCI_CWD
