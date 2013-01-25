@@ -44,7 +44,7 @@ if [[ -a "$(which watchmedo)" ]]
   then 
 	printf "\e[32mwatchdog/watchmedo found.\e[0m \n"
 else
-
+	
 	#install! #post installation script to execute inline
 	shinst install gorakhargosh/watchdog -s - && cd ~/.watchdog
 
@@ -71,7 +71,7 @@ fi
 false && npm install && bower install
 
 # check self
-if [[ -a ~/.pharci/bin/pharci ]]
+if [[ -a "$(which pharci)" ]]
   then 
 	printf "\e[32mpharci installed.\e[0m \n"
 else

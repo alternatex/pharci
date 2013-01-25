@@ -8,6 +8,12 @@
 
 # TODO NEXT:
 # REMOVE HC* - almost done » pharci-watch.php to go
+#
+# BASH APPROACH XXXcoprocXXX
+#
+#
+#
+#
 
 set +v
 

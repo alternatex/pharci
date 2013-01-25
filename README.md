@@ -9,10 +9,25 @@ Installation
 ### Prerequisites
 
 * Unix OS
+
+* Bash (>=4.0)
+
 * PHP (http://php.net)
 * Python (http://www.python.org)
-
 * Watchdog (https://github.com/gorakhargosh/watchdog)
+
+Auto-Installation?!
+Auto-Installation?!
+Auto-Installation?!
+Auto-Installation?!
+Auto-Installation?!
+Auto-Installation?!
+Auto-Installation?!
+
+» custom prefix »»» check docs and apply
+* Redis (http://redis.io)
+
+Dependency: predis » 
 
 ### Configuration
 

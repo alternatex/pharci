@@ -1,0 +1,74 @@
+{
+  "name": "pharci",    
+  "version": "1.0.0",
+  "description": "PHP development utility to automate filesystem > phar replication by monitoring filesystem modifications",
+  "keywords": ["phar", "filesystem", "watch", "update", "automation"],
+  "homepage": "http://github.com/alternatex/pharci",
+  "author": {
+    "name": "Gianni Furger",
+    "email": "gianni.furger@gmail.com",
+    "url": "http://github.com/alternatex/"
+  },
+  "bundle": "pharci",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://raw.github.com/alternatex/pharci/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/alternatex/pharci/master/LICENSE"
+    }
+  ],
+  "engines": {}, 
+  "dependencies": {},
+  "shinst": {
+    "provides": {            
+      "bazinga": ">=1.x.x"
+    }
+  },
+  "requires": [
+  	"node", 
+  	"npm", 
+  	""
+  ],
+  "dependencies": {
+    "copy": ">=0.1.x"
+  },    
+  "provides": {      
+    "redis": {
+      "ghrepo": "antirez/redis",
+      "script": " \
+        make \
+        make test \
+      "
+    },
+    "bazinga": {
+      "ghrepo": "alternatex/bazinga",
+      "script": " \
+        echo 'dependency::bazinga'
+      "
+    },
+    "watchmedo": {
+      "ghrepo": "gorakhargosh/watchdog",
+      "script": " \
+echo \"# install watchdog w\/o processing\"; \
+shinst install gorakhargosh\/watchdog -s - && cd ~\/.watchdog; \
+echo \"# prerequisites osx\"; \
+brew install libyaml; \
+echo \"# run installer\"; \
+sudo python setup.py install; \
+echo \"# install deps\"; \
+npm install && bower install;"
+    }   
+  },
+  "commands": {
+    "copy": {
+      "package_1": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_2": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_3": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_4": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_5": { "src": "/path/to/file", "dest": "/path/to/file" }
+    }
+  }
+}

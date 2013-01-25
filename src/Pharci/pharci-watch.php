@@ -19,8 +19,6 @@
 
 /*
 
-
-
 // getopts
 $options=''; $longopts=array(Pharci::ATTRIBUTE_WATCH_PID, Pharci::ATTRIBUTE_WATCH, Pharci::ATTRIBUTE_PHAR , Pharci::ATTRIBUTE_SRC, Pharci::ATTRIBUTE_PATTERN, Pharci::ATTRIBUTE_DEST, Pharci::ATTRIBUTE_EVENT_TYPE, Pharci::ATTRIBUTE_OBJECT);
 
