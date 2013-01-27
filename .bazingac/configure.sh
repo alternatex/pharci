@@ -8,6 +8,9 @@ bazinga_custom_json="settings.json"
 
 # bazinga configuration
 function bazinga_gather(){
+	bazinga_input "ipaddress" "ipaddress"
+	bazinga_input "port" "port"
+	bazinga_input "output" "output"
 	bazinga_input "source" "source"	
 	bazinga_input "target" "target"		
 	bazinga_input "interval" "interval"		

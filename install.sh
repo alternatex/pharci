@@ -21,24 +21,6 @@ else
 	printf "\e[32mdone.\e[0m   $1\n"
 fi
 
-# check node  
-if [[ -a "$(which node)" ]]
-  then 
-	printf "\e[32mnode found.\e[0m \n"
-else
-	printf "\e[1;31mnode not found.\e[0m \n"
-	exit -1
-fi
-
-# check npm
-if [[ -a "$(which npm)" ]]
-  then 
-	printf "\e[32mnpm found.\e[0m \n"
-else
-	printf "\e[1;31mnpm not found.\e[0m \n"
-	exit -1	
-fi
-
 # check watchdog
 if [[ -a "$(which watchmedo)" ]]
   then 
@@ -78,9 +60,6 @@ else
 	# go back
 	cd -
 fi
-
-# install npm/component dependencies
-false && npm install && bower install
 
 # check self
 if [[ -a ~/.pharci/bin/pharci ]]

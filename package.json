@@ -21,10 +21,5 @@
     }
   ],
   "engines": {}, 
-  "dependencies": {},
-  "shinst": {
-    "provides": {            
-      "bazinga": ">=1.x.x"
-    }
-  }   
+  "dependencies": {}  
 }

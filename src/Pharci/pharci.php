@@ -78,7 +78,25 @@ class Pharci {
   // helpers
   private static $initialized = false;
   private static $logger = null;
+  private static $phar = null;
+
+  public static function SetPhar(&$phar){
+    self::$phar=$phar;
+  }
+
+  #
+  public static function AddFile(){}
+  public static function UpdateFile(){}
+  public static function MoveFile(){}
+  public static function RemoveFile(){}
   
+  #
+  public static function AddDirectory(){}
+  public static function UpdateDirectory(){}
+  public static function MoveDirectory(){}
+  public static function RemoveDirectory(){}
+  
+
   // process filesystem event
   public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){
     
@@ -175,7 +193,24 @@ class Pharci {
     } else {
       // ...
     }
-  }   
+  }  
+
+   // helper - phar import
+  public static function Import($directory, $force=false){
+
+    // ...
+    if($force || !file_exists($directory)) {  
+
+      // bootstrap
+      self::$phar->buildFromDirectory($directory);
+    }  
+  }
+
+  // helper - phar export
+  public static function Export($directory){
+    self::$phar->extractTo($directory, null, true);
+  }
+
 }
 
 // initialize - end
