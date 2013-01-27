@@ -16,8 +16,8 @@ if [[ -a "$(which bazinga)" ]]
 	printf "\e[32mbazinga found.\e[0m \n"
 else
 	# install dependency
-	printf "\e[32minstalling bazinga...\e[0m \n"
-	shinst install alternatex/bazinga
+	printf "\e[32minstalling bazinga (stable)...\e[0m \n"
+	shinst install alternatex/bazinga -b stable
 	printf "\e[32mdone.\e[0m   $1\n"
 fi
 

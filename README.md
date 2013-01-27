@@ -13,14 +13,6 @@ Installation
 * Python (http://www.python.org)
 * Watchdog (https://github.com/gorakhargosh/watchdog)
 
-Auto-Installation?!
-Auto-Installation?!
-Auto-Installation?!
-Auto-Installation?!
-Auto-Installation?!
-Auto-Installation?!
-Auto-Installation?!
-
 ### Configuration
 
 Ensure php.ini includes `phar.readonly=Off` to enable creation and modification of phar archives using the phar stream or [phar](http://php.net/manual/ru/class.phar.php) object's write support.
@@ -33,11 +25,11 @@ You can install this through https://github.com/alternatex/shinst
 
 via `curl`
 
-`bash -s stable < <(curl -s https://raw.github.com/alternatex/pharci/master/install.sh)`
+`bash -s master < <(curl -s https://raw.github.com/alternatex/pharci/master/install.sh)`
 
 via `wget`
 
-`bash -s stable < <(wget https://raw.github.com/alternatex/pharci/master/install.sh -O -)`
+`bash -s master < <(wget https://raw.github.com/alternatex/pharci/master/install.sh -O -)`
 
 ### Platform Notes
 

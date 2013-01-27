@@ -1,5 +1,12 @@
 #!/usr/local/bin/php -q
 <?php
+
+// include core
+require_once(__DIR__.'/pharci.php');
+
+// alias 
+use Pharci\Pharci as Pharci;
+
 // shout out loud
 error_reporting(E_ALL);
 
@@ -7,9 +14,9 @@ error_reporting(E_ALL);
 set_time_limit(0);
 
 // extract command line arguments
-$args = array_shift($argv);
+array_shift($argv);
 
-die(print_r($args));
+$args = $argv;
 
 // print input data
 ob_implicit_flush();
@@ -117,9 +124,10 @@ do {
                     break;
                 default:
                     echo "unknown action: ".$item[Pharci::ATTRIBUTE_EVENT_TYPE];
+                    break;
             }
         else:
-            echo "don't know what to do with: $buf"
+            echo "don't know what to do with: $buf";
         endif;
 
         $talkback = "PHP: You said '$buf'.\n";

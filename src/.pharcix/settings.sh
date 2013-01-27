@@ -1,3 +1,6 @@
+export pharci_ipaddress="127.0.0.1";	
+export pharci_port="9991";	
+export pharci_output="/Users/bazinga/Desktop/output";
 export pharci_source="/Users/bazinga/pharci-test";
 export pharci_target="/Users/bazinga/Desktop/pharci.phar";
 export pharci_include_pattern="*";
