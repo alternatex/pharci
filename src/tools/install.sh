@@ -49,7 +49,6 @@ else
 	fi    		
 fi
 
-
 # check self
 if [[ -a "$(which pharci)" ]]
   then 

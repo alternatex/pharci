@@ -28,8 +28,6 @@ if [[ -a $PHARCI/.bazingac/configure.sh ]]
   
   # include configuration
   source $PHARCI/.bazingac/configure.sh
-else 
-	echo "FATAL ERROR BAZINGA CONFIGURATION NOT FOUND"
 fi
 
 # move back to directory where we started at
@@ -45,7 +43,7 @@ fi
 
 # edit configuration?
 if [ -f ".pharcix/settings.sh" ]; then  
-  echo "\n configure? («Y» to edit or any key to skip) "
+  echo "configure? («Y» to edit or any key to skip) "
   read -p ""
         ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ])  && pharci_configure
 else 

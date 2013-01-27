@@ -135,7 +135,6 @@ do {
 
         socket_write($msgsock, $talkback, strlen($talkback));
 
-
         echo "$buf\n";
     } while (true);
     socket_close($msgsock);

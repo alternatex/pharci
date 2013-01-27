@@ -57,6 +57,7 @@ Roadmap
 - multiple instances (handle ports)
 - ensure no multiprocess access on phar
 - zip & tar/gz streams support
+- semver
 
 License
 -------------

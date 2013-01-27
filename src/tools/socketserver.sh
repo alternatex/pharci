@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # start php socket server
-./Pharci/socket.php "${pharci_ipaddress}" "${pharci_port}" "${pharci_target}" "${pharci_source}"  "${pharci_output}" &
-
-# wait a lil for server startup
-sleep 2s
+$PHARCI/src/Pharci/socket.php "${pharci_ipaddress}" "${pharci_port}" "${pharci_target}" "${pharci_source}"  "${pharci_output}" &
 
 # store watch pid
 socket_pid=$!
+
+echo "socket pid is: $socket_pid"
+
+# wait a lil for server startup
+sleep 2s
 
 # fetch filedescriptor
 exec 3<>"/dev/tcp/${pharci_ipaddress}/${pharci_port}"
@@ -24,5 +26,6 @@ function command(){
 # shutdown socket server
 function shutdown(){
 	echo "shutdown" >&${descriptor}
-	wait $socket_pid # timeout? » kill -9 $socket_pid	
+	echo "shutting down: $socket_pid"
+	kill -9 $socket_pid	#wait $socket_pid # timeout? » kill -9 $socket_pid	
 }

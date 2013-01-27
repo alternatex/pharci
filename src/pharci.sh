@@ -4,10 +4,10 @@
 set +v
 
 # initialize
-source initialize.sh
+source tools/initialize.sh
 
 # start php socket server
-source socketserver.sh
+source tools/socketserver.sh
 
 # start watchdog redirect it's output to socket
 watchmedo shell-command \
