@@ -14,16 +14,17 @@
 * ------------------------------------------------------------------ 
 */
 
-// TODO: fix this. think. perf. (read/write..) > stream prolly just too heavy. check tar/gz streaming?!
+// prerequisites - check phar write support
+if(!\Phar::canWrite()):
+
+  // give up
+  die("Error: ".
+      "Phar::canWrite() evaluates to `false`.".
+      "Ensure php.ini includes phar.readonly=Off to enable creation and modification of phar archives using the phar stream or phar object's write support.");
+endif;
 
 // initialize
 if(!defined('PHARCI_INITIALIZED') && define('PHARCI_INITIALIZED', true)):
-
-// ... 
-global $args;
-
-// include configuration
-require_once(dirname(__FILE__).'/settings.php');
 
 // core
 class Pharci {
@@ -83,25 +84,9 @@ class Pharci {
   public static function SetPhar(&$phar){
     self::$phar=$phar;
   }
-
-  #
-  public static function AddFile(){}
-  public static function UpdateFile(){}
-  public static function MoveFile(){}
-  public static function RemoveFile(){}
   
-  #
-  public static function AddDirectory(){}
-  public static function UpdateDirectory(){}
-  public static function MoveDirectory(){}
-  public static function RemoveDirectory(){}
-  
-
   // process filesystem event
-  public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){
-    
-    // todo: remove this - inject ... *    
-    global $args;    
+  public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){    
 
     // phar-fs
     $phar_source = str_replace($watch, '', $src);
@@ -186,6 +171,46 @@ class Pharci {
     }
   }
 
+  // ...
+  public static function AddFile(){
+
+  }
+
+  // ...
+  public static function UpdateFile(){
+
+  }
+
+  // ...
+  public static function MoveFile(){
+
+  }
+
+  // ...
+  public static function RemoveFile(){
+
+  }
+  
+  // ...
+  public static function AddDirectory(){
+
+  }
+  
+  // ...
+  public static function UpdateDirectory(){
+
+  }
+  
+  // ...
+  public static function MoveDirectory(){
+
+  }
+
+  // ...
+  public static function RemoveDirectory(){
+
+  }
+
   // helper - extract $src from archive
   public static function Extract($phar, $src=self::INCLUDE_PATTERN){
     if($src==self::INCLUDE_PATTERN_ALL) {
@@ -215,3 +240,28 @@ class Pharci {
 
 // initialize - end
 endif;
+
+// include configuration
+require_once(dirname(__FILE__).'/settings.php');
+
+// ------------------------------------------------------
+// - helpers 
+// ------------------------------------------------------
+
+// fs delete
+function _rmdir($x){  
+  try {
+    if(!file_exists($x)) return false;
+    $it = new \RecursiveDirectoryIterator($x);
+    $files = new \RecursiveIteratorIterator($it,
+                 \RecursiveIteratorIterator::CHILD_FIRST);
+    foreach($files as $file){
+      if ($file->isDir()){
+          if(file_exists($file->getRealPath())) rmdir($file->getRealPath());
+      } else {
+          if(file_exists($file->getRealPath()))
+            unlink($file->getRealPath());
+      }
+    }
+  } catch(Exception $ex) {}
+}

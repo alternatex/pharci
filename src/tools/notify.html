@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<body>
+<script>	
+var notification = new Notification('Title', {body: 'text'});
+notification.show();
+
+// The event part is optional, you need to use it before .show().
+notification.addEventListener('show', function() {
+  setTimeout(function() {
+    notification.cancel();
+  }, 2000);
+}, true);
+</script>
+</body>
+</html>

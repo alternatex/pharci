@@ -8,10 +8,13 @@ Installation
 
 ### Prerequisites
 
-* Unix OS
-* PHP (http://php.net)
-* Python (http://www.python.org)
-* Watchdog (https://github.com/gorakhargosh/watchdog)
+- MacOSX (TODO: add switches - only terminal-notifier blocks other Unix OS's)
+- PHP (http://php.net)
+- Python (http://www.python.org)
+
+**Automatic installers:**
+- Watchdog (https://github.com/gorakhargosh/watchdog)
+- Terminal-Notifier 
 
 ### Configuration
 
@@ -48,6 +51,8 @@ $ pharci
 
 Roadmap
 -------------
+- sexy usage: rebuild by confirmation when batch processing is detected » stack changes - if too much completely rebuilding the archive would make sense > terminal-notifier/notification center
+-> on batch detect offer rebuild - on subsequent change detect > clear messages > restart if things are quite again...
 - add test per object/event_type (including batch operations)
 - timed actions » based on insights gotten from batch operation tests
 - ensure all settings used

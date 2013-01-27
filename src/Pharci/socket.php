@@ -1,11 +1,10 @@
 #!/usr/local/bin/php -q
 <?php
+// alias 
+use Pharci\Pharci as Pharci;
 
 // include core
 require_once(__DIR__.'/pharci.php');
-
-// alias 
-use Pharci\Pharci as Pharci;
 
 // shout out loud
 error_reporting(E_ALL);
@@ -13,23 +12,18 @@ error_reporting(E_ALL);
 // hang around
 set_time_limit(0);
 
-// extract command line arguments
-array_shift($argv);
-
-$args = $argv;
-
 // print input data
-ob_implicit_flush();
+//ob_implicit_flush();
 
-// extract command line arguments
-$address = $args[0];
-$port = $args[1];
-$phar = $args[2];
-$directory = $args[3];
-$ouput = $args[4];
-
+// extract script arguments
+$address    = $argv[1];
+$port       = $argv[2];
+$phar       = $argv[3];
+$directory  = $argv[4];
+$ouput      = $argv[5];
+$doecho = false;
 // initialize phar
-echo "initializing phar archive $phar from directory $directory";
+echo "initializing phar archive $phar from directory $directory".PHP_EOL;
 
 // access phar archive
 $phar = new \Phar($phar);
@@ -41,7 +35,7 @@ Pharci::SetPhar($phar);
 Pharci::Import($directory, true);
 
 // start socket server
-echo "starting php socket server... listening on ${address}:${port}";
+echo "starting php socket server... listening on ${address}:${port}".PHP_EOL;
 
 /*
 foreach($items as $item) {
@@ -69,20 +63,20 @@ foreach($items as $item) {
 
 // CUSTOM COMANDS TO INSPECT PHAR ARCHIVE: list, stats
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-    echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+    echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . PHP_EOL;
 }
 
 if (socket_bind($sock, $address, $port) === false) {
-    echo "socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)) . "\n";
+    echo "socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
 }
 
 if (socket_listen($sock, 5) === false) {
-    echo "socket_listen() failed: reason: " . socket_strerror(socket_last_error($sock)) . "\n";
+    echo "socket_listen() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
 }
 
 do {
     if (($msgsock = socket_accept($sock)) === false) {
-        echo "socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)) . "\n";
+        echo "socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
         break;
     }
     /* Send instructions. */
@@ -92,7 +86,7 @@ do {
 
     do {
         if (false === ($buf = socket_read($msgsock, 2048, PHP_NORMAL_READ))) {
-            echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)) . "\n";
+            echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)) . PHP_EOL;
             break 2;
         }
         if (!$buf = trim($buf)) {
@@ -135,29 +129,10 @@ do {
 
         socket_write($msgsock, $talkback, strlen($talkback));
 
-        echo "$buf\n";
+        //echo "$buf\n";
     } while (true);
     socket_close($msgsock);
 } while (true);
 
 // cleanup
 socket_close($sock);
-
-// helper - fs delete
-function _rmdir($x){  
-  try {
-    if(!file_exists($x)) return false;
-    $it = new \RecursiveDirectoryIterator($x);
-    $files = new \RecursiveIteratorIterator($it,
-                 \RecursiveIteratorIterator::CHILD_FIRST);
-    foreach($files as $file){
-      if ($file->isDir()){
-          if(file_exists($file->getRealPath())) rmdir($file->getRealPath());
-      } else {
-          if(file_exists($file->getRealPath()))
-            unlink($file->getRealPath());
-      }
-    }
-  } catch(Exception $ex) {}
-}
-?>

@@ -10,6 +10,8 @@ else
 	exit -1
 fi
 
+https://github.com/downloads/alloy/terminal-notifier/terminal-notifier_1.4.2.zip
+
 # check bazinga
 if [[ -a "$(which bazinga)" ]]
   then 
@@ -18,6 +20,26 @@ else
 	# install dependency
 	printf "\e[32minstalling bazinga...\e[0m \n"
 	shinst install alternatex/bazinga
+	printf "\e[32mdone.\e[0m   $1\n"
+fi
+
+# check terminal notifier
+if [[ -a "$(which terminal-notifier)" ]]
+  then 
+	printf "\e[32mterminal-notifier found.\e[0m \n"
+else
+	# install dependency
+	printf "\e[32minstalling terminal-notifier through gem...\e[0m \n"
+	
+	sudo gem install terminal-notifier
+
+    # check installation
+	if [[ -a "$(which terminal-notifier)" ]]
+	  then 
+	  	printf "\e[32malloy/terminal-notifier installed.\e[0m \n"
+	else
+		printf "\e[1;31malloy/terminal-notifier installation failed.\e[0m \n"
+	fi 	
 	printf "\e[32mdone.\e[0m   $1\n"
 fi
 
