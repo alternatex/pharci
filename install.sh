@@ -46,7 +46,13 @@ if [[ -a "$(which watchmedo)" ]]
 else
 
 	#install! #post installation script to execute inline
-	shinst install gorakhargosh/watchdog -s - && cd ~/.watchdog
+	shinst install gorakhargosh/watchdog -s -
+
+	# go to install dir
+	cd ~/.watchdog
+
+	echo "in directory: "
+	pwd
 
     # prerequisites osx
     brew install libyaml
@@ -54,8 +60,11 @@ else
     # prerequisites unix
     false && sudo aptitude install libyaml-dev
 
+	echo "in directory: "
+	pwd
+	
 	# run installer
-    sudo python setup.py install
+    sudo python $HOME/.watchdog/setup.py install
 
     # check installation
 	if [[ -a "$(which watchmedo)" ]]
@@ -64,7 +73,10 @@ else
 	else
 		printf "\e[1;31mwatchdog/watchmedo installation failed.\e[0m \n"
 		exit -1	
-	fi    		
+	fi  
+
+	# go back
+	cd -
 fi
 
 # install npm/component dependencies

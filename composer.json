@@ -37,6 +37,18 @@
     {
       "type": "package",
       "package": {
+          "name": "predis",
+          "version": "0.0.1",
+          "dist": {
+              "url": "https://github.com/nrk/predis/archive/master.zip",
+              "type": "zip"
+          },
+          "target-dir": "/"
+      }
+    },    
+    {
+      "type": "package",
+      "package": {
           "name": "watchdog",
           "version": "0.0.1",
           "dist": {
@@ -47,7 +59,9 @@
       }
     }    
   ],
-  "require": {},     
+  "require": {
+    "predis/predis": "*"
+  },     
   "autoload": {
     "psr-0": { "pharci": "/" }
   }  
