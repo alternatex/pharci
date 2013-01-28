@@ -11,7 +11,11 @@ source socketserver.sh
 
 echo "START"
 
+terminal-notifier -message "hey there" -title "starting test.sh routine XXX" -subtitle "my message's subtitle" -execute /Applications/Safari.app/Contents/MacOS/Safari  -group shalalala
+
 date
+
+sleep 1s
 
 # add file
 dispatch "~/Desktop/test.txt" "" "created" "file"
@@ -1375,13 +1379,14 @@ dispatch "~/Desktop/test.txt" "" "created" "file3"
 dispatch "~/Desktop/test.txt" "" "created" "file4"
 dispatch "~/Desktop/test.txt" "" "created" "LAST"
 
+
 date
 
 # info xxx
-terminal-notifier -list ALL
-terminal-notifier -message "hey there" -title "my message's title" -subtitle "my message's subtitle" -execute /Applications/Safari.app/Contents/MacOS/Safari
+#terminal-notifier -list ALL
+terminal-notifier -message "hey there" -title "my message's title" -subtitle "my message's subtitle" -execute /Applications/Safari.app/Contents/MacOS/Safari -group shalalala
 
-./termbatch.sh 2>&1 > /dev/null
+#./termbatch.sh 2>&1 > /dev/null
 
 # shutdown socket server
 shutdown

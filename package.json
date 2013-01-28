@@ -1,7 +1,7 @@
 {
   "name": "pharci",    
   "version": "1.0.0",
-  "description": "PHP development utility to automate filesystem > phar replication by monitoring filesystem modifications",
+  "description": "PHP development utility to automate filesystem to phar replication by monitoring filesystem modifications",
   "keywords": ["phar", "filesystem", "watch", "update", "automation"],
   "homepage": "http://github.com/alternatex/pharci",
   "author": {

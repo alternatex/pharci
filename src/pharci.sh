@@ -9,6 +9,14 @@ source tools/initialize.sh
 # start php socket server
 source tools/socketserver.sh
 
+# terminal-notifier
+
+notify_group="<projectname>"
+
+function notifiy(){
+	terminal-notifier -message "hey there" -title "my message's title" -subtitle "my message's subtitle" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group	
+}
+
 # start watchdog redirect it's output to socket
 watchmedo shell-command \
     --patterns="$pharci_include_pattern" \
