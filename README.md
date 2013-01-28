@@ -12,7 +12,7 @@ Installation
 - PHP (http://php.net)
 - Python (http://www.python.org)
 
-**Automatic installers:**
+**Automatic (Attempt \*):**
 - Watchdog (https://github.com/gorakhargosh/watchdog)
 
 ### Configuration
@@ -56,10 +56,9 @@ Roadmap
 - sexy usage: rebuild by confirmation when batch processing is detected » stack changes - if too much completely rebuilding the archive would make sense > terminal-notifier/notification center
 -> on batch detect offer rebuild - on subsequent change detect > clear messages > restart if things are quite again...
 - add test per object/event_type (including batch operations)
-- timed actions » based on insights gotten from batch operation tests
+- timed actions » based on insights gotten from batch operation tests - NO: by use w/ sense just notify glob(pattern) returned count vs recommended/"max"
 - ensure all settings used
 - add verbose option (todo: statistics impact o echoing)
-- max directory depth / files to monitor
 - finalize event handling
 - multiple instances (handle ports)
 - ensure no multiprocess access on phar

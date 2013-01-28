@@ -9,11 +9,11 @@ source tools/initialize.sh
 # start php socket server
 source tools/socketserver.sh
 
-# terminal-notifier
-
+# terminal-notifier - cfg
 notify_group="<projectname>"
 
-function notifiy(){
+# terminal-notifier - util
+function notify(){
 	terminal-notifier -message "hey there" -title "my message's title" -subtitle "my message's subtitle" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group	
 }
 

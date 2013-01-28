@@ -3,7 +3,7 @@
 * ------------------------------------------------------------------               
 * Pharci
 *
-* PHP development utility to automate filesystem > phar 
+* PHP development utility to automate filesystem to phar 
 * replication by monitoring filesystem modifications using 
 * [watchdog](https://github.com/gorakhargosh/watchdog/)
 *
@@ -61,8 +61,7 @@ class Pharci {
   const FILENAME_SETTINGS     = 'settings.json';
   
   // limits
-  const LIMIT_CAP   = 5;
-  const LIMIT_QUEUE = 5;
+  const LIMIT_UPDATES_PTU     = 5; # updates per time unit (wich is=XXX?!)
 
   // messages
   const MESSAGE_CAP_REACHED = '"cap limit reached. full rebuild. wait a lil until it\'s more quiet"';
@@ -97,13 +96,22 @@ class Pharci {
       return;
     
     // log
-    if(true) echo '{"'.self::ATTRIBUTE_WATCH.'": "'.$watch.'","'.self::ATTRIBUTE_PHAR.'": "'.$phar.'", "'.self::ATTRIBUTE_SRC.'": "'.$src.'", "'.self::ATTRIBUTE_DEST.'": "'.$dest.'", "'.self::ATTRIBUTE_EVENT_TYPE.'": "'.$event_type.'", "'.self::ATTRIBUTE_OBJECT.'": "'.$object.'"}';
+    if(false) echo '{"'.self::ATTRIBUTE_WATCH.'": "'.$watch.'","'.self::ATTRIBUTE_PHAR.'": "'.$phar.'", "'.self::ATTRIBUTE_SRC.'": "'.$src.'", "'.self::ATTRIBUTE_DEST.'": "'.$dest.'", "'.self::ATTRIBUTE_EVENT_TYPE.'": "'.$event_type.'", "'.self::ATTRIBUTE_OBJECT.'": "'.$object.'"}';
 
     // initialize stream context
     $context = stream_context_create(
         array('phar' => array('compress' => \Phar::GZ)),
         array('metadata' => array('user' => 'alternatex'))
       );
+
+    /*
+    TODO:
+    - replace switch statement:
+      1. validate object / event_type
+      2. $delegate=ucfirst($object).ucfirst($event_type);
+      3. self::$delegate($src, $dest);
+    - implement additional phar class actions » empty dirs and such. not only files *
+    */
 
     // handle by type
     switch($event_type){
@@ -119,7 +127,7 @@ class Pharci {
           $src_contents = file_get_contents($src);        
 
           // update phar contents 
-          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_source, $src_contents);//, 0, $context);          
+          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_source, $src_contents); //, 0, $context);          
           self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_source, $src_contents);
         }
 
@@ -172,44 +180,44 @@ class Pharci {
   }
 
   // ...
-  public static function AddFile(){
+  public static function FileCreated(){
 
   }
 
   // ...
-  public static function UpdateFile(){
+  public static function FileUpdated(){
 
   }
 
   // ...
-  public static function MoveFile(){
+  public static function FileMoved(){
 
   }
 
   // ...
-  public static function RemoveFile(){
-
-  }
-  
-  // ...
-  public static function AddDirectory(){
-
-  }
-  
-  // ...
-  public static function UpdateDirectory(){
-
-  }
-  
-  // ...
-  public static function MoveDirectory(){
+  public static function FileDeleted(){
 
   }
 
   // ...
-  public static function RemoveDirectory(){
+  public static function DirectoryCreated(){
 
   }
+
+  // ...
+  public static function DirectoryUpdated(){
+
+  }
+
+  // ...
+  public static function DirectoryMoved(){
+
+  }
+
+  // ...
+  public static function DirectoryDeleted(){
+
+  }  
 
   // helper - extract $src from archive
   public static function Extract($phar, $src=self::INCLUDE_PATTERN){

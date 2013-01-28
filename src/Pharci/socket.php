@@ -1,5 +1,9 @@
 #!/usr/local/bin/php -q
 <?php
+
+// flags
+$debug = false;
+
 // alias 
 use Pharci\Pharci as Pharci;
 
@@ -13,7 +17,7 @@ error_reporting(E_ALL);
 set_time_limit(0);
 
 // print input data
-//ob_implicit_flush();
+$debug && ob_implicit_flush();
 
 // extract script arguments
 $address    = $argv[1];
@@ -21,7 +25,7 @@ $port       = $argv[2];
 $phar       = $argv[3];
 $directory  = $argv[4];
 $ouput      = $argv[5];
-$doecho = false;
+
 // initialize phar
 echo "initializing phar archive $phar from directory $directory".PHP_EOL;
 
@@ -34,34 +38,16 @@ Pharci::SetPhar($phar);
 // import from directory
 Pharci::Import($directory, true);
 
+// ...
+false && Pharci::Export('/Users/bazinga/Desktop/outdir');
+
 // start socket server
 echo "starting php socket server... listening on ${address}:${port}".PHP_EOL;
 
-/*
-foreach($items as $item) {
+// Pharci::ProcessEvent($args['watch'], $argv[1], $args['pattern'], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
 
-  // ...
-  $args = json_decode($item, true);
+// TODO: CUSTOM COMANDS TO INSPECT PHAR ARCHIVE: list, stats > own accessor @ server XXX
 
-  // TODO: remove this
-  if(!isset($argv[1])) continue;     
-  
-  // skip this
-  if($args['event_type']==Pharci::EVENT_TYPE_MODIFIED && $args['object']==Pharci::EVENT_OBJECT_FOLDER)
-    continue;  
-  
-  // remember *
-  $_args = $args;
-  
-  // perform bootstrap?
-  _import($argv);
-
-  // process event
-  Pharci::ProcessEvent($args['watch'], $argv[1], $args['pattern'], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
-}
-*/
-
-// CUSTOM COMANDS TO INSPECT PHAR ARCHIVE: list, stats
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
     echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . PHP_EOL;
 }
@@ -95,42 +81,21 @@ do {
         if ($buf == 'quit') {
             break;
         }
-        if ($buf == 'shutdown') {
+        if ($buf == 'shutdown') {            
             socket_close($msgsock);
             break 2;
         }
 
-        $item = json_decode($buf, true);
+        $args = $item = json_decode($buf, true);
 
-        if(is_array($item)):
-            switch($item[Pharci::ATTRIBUTE_EVENT_TYPE]){
-                case Pharci::EVENT_TYPE_CREATED:
-                    echo "EVENT CREATED";
-                    break;
-                case Pharci::EVENT_TYPE_MODIFIED:
-                    echo "EVENT MODIFIED";
-                    break;
-                case Pharci::EVENT_TYPE_MOVED:
-                    echo "EVENT MOVED";
-                    break;
-                case Pharci::EVENT_TYPE_DELETED:
-                    echo "EVENT DELETED";
-                    break;
-                default:
-                    echo "unknown action: ".$item[Pharci::ATTRIBUTE_EVENT_TYPE];
-                    break;
-            }
-        else:
-            echo "don't know what to do with: $buf";
-        endif;
-
-        $talkback = "PHP: You said '$buf'.\n";
-        echo "$buf\n";
-
-        socket_write($msgsock, $talkback, strlen($talkback));
+        Pharci::ProcessEvent($args['watch'], $argv[3], $args['src'], "*", $args['dest'], $args['event_type'], $args['object']);
 
         //echo "$buf\n";
+        //socket_write($msgsock, $talkback, strlen($talkback));
+
     } while (true);
+
+    // ...
     socket_close($msgsock);
 } while (true);
 
