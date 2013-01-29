@@ -8,7 +8,7 @@ Installation
 
 ### Prerequisites
 
-- MacOSX 10.8 (TODO: add switches - only terminal-notifier blocks other Unix OS's)
+- MacOSX 10.8 (TODO: » use new shinst version switches - stay bashy. add switches - only terminal-notifier blocks other Unix OS's)
 - PHP (http://php.net)
 - Python (http://www.python.org)
 
