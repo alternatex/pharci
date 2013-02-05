@@ -1,24 +1,6 @@
 #!/bin/bash
 
 # ...
-function check_shinst_pkg(){
-
-	# check shinst pkg
-	if [[ -a "$(which $1)" ]]; then 
-
-		# ...	
-		printf "\e[32m$1 found\e[0m \n"
-	else 
-		
-		# install dependency
-		printf "\e[32minstalling $1...\e[0m \n"
-
-		# install shinst pkg
-		shinst install $2
-	fi
-}
-
-# ...
 function check_webinst(){
 
 	# check webinst
@@ -36,6 +18,24 @@ function check_webinst(){
 	fi
 }
 
+# ...
+function check_shinst_pkg(){
+
+	# check shinst pkg
+	if [[ -a "$(which $1)" ]]; then 
+
+		# ...	
+		printf "\e[32m$1 found\e[0m \n"
+	else 
+		
+		# install dependency
+		printf "\e[32minstalling $1...\e[0m \n"
+
+		# install shinst pkg
+		shinst install $2
+	fi
+}
+
 # require shinst
 check_webinst "shinst" "https://raw.github.com/alternatex/shinst/master/src/tools/install.sh"
 
@@ -43,6 +43,7 @@ check_webinst "shinst" "https://raw.github.com/alternatex/shinst/master/src/tool
 check_shinst_pkg "bazinga" "alternatex/bazinga"
 
 # TODO: pharci-notifier » include custom build / fnc wrap
+# TODO: shinst environment switch *
 
 # check terminal notifier
 if [[ -a "$(which terminal-notifier)" ]]; then 

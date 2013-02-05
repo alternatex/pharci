@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# debug switch descriptor to use
-export descriptor=3
-
 # initialize
 source initialize.sh
 

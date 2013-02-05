@@ -91,7 +91,7 @@ do {
         Pharci::ProcessEvent($args['watch'], $argv[3], $args['src'], "*", $args['dest'], $args['event_type'], $args['object']);
 
         //echo "$buf\n";
-        //socket_write($msgsock, $talkback, strlen($talkback));
+        $debug && socket_write($msgsock, $talkback, strlen($talkback));
 
     } while (true);
 

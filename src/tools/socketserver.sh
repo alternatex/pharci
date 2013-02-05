@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO: think.
+descriptor=3
+
 # start php socket server
 $PHARCI/src/Pharci/socket.php "${pharci_ipaddress}" "${pharci_port}" "${pharci_target}" "${pharci_source}"  "${pharci_output}" &
 

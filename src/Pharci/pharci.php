@@ -5,7 +5,7 @@
 *
 * PHP development utility to automate filesystem to phar 
 * replication by monitoring filesystem modifications using 
-* [watchdog](https://github.com/gorakhargosh/watchdog/)
+* [watchdog](https://github.com/gorakhargosh/watchdog)
 *
 * Copyright 2013, Gianni Furger <gianni.furger@gmail.com>
 * 
@@ -185,7 +185,7 @@ class Pharci {
   }
 
   // ...
-  public static function FileUpdated(){
+  public static function FileModified(){
 
   }
 
@@ -205,7 +205,7 @@ class Pharci {
   }
 
   // ...
-  public static function DirectoryUpdated(){
+  public static function DirectoryModified(){
 
   }
 
