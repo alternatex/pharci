@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5199791315B1F92B003AFC57"
-               BuildableName = "terminal-notifier.app"
+               BuildableName = "pharci-notifier.app"
                BlueprintName = "pharci-notifier"
                ReferencedContainer = "container:Pharci-Notifier.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5199791315B1F92B003AFC57"
-            BuildableName = "terminal-notifier.app"
+            BuildableName = "pharci-notifier.app"
             BlueprintName = "pharci-notifier"
             ReferencedContainer = "container:Pharci-Notifier.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5199791315B1F92B003AFC57"
-            BuildableName = "terminal-notifier.app"
+            BuildableName = "pharci-notifier.app"
             BlueprintName = "pharci-notifier"
             ReferencedContainer = "container:Pharci-Notifier.xcodeproj">
          </BuildableReference>
@@ -112,7 +112,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5199791315B1F92B003AFC57"
-            BuildableName = "terminal-notifier.app"
+            BuildableName = "pharci-notifier.app"
             BlueprintName = "pharci-notifier"
             ReferencedContainer = "container:Pharci-Notifier.xcodeproj">
          </BuildableReference>
