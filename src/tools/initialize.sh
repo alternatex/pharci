@@ -8,6 +8,11 @@ export BAZINGA_HOME="`dirname $1`/.." && cd $BAZINGA_HOME
 export BAZINGA_INSTALL="`which bazinga 2>&1`"
 export BAZINGA_INSTALL_DIR="`dirname $BAZINGA_INSTALL 2>&1`/.."
 
+export __CREATED='created'
+export __DELETED='deleted'
+export __MODIFIED='modified'
+export __MOVED='moved'
+
 # require custom
 source $BAZINGA_INSTALL_DIR/lib/custom.sh
 

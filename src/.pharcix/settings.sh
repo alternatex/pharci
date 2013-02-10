@@ -1,5 +1,8 @@
-export pharci_ipaddress="127.0.0.1";	
-export pharci_port="9991";	
+export pharci_admin_name="My Name Is Jimbo";
+export pharci_admin_email="jimbo@localhost.com";
+export pharci_signature="3243kwnrlaw3uv4wilhrfh3ww3rä3$4$34$fdfdsw4t";
+export pharci_ipaddress="127.0.0.1";
+export pharci_port="9991";
 export pharci_output="/Users/bazinga/Desktop/output";
 export pharci_source="/Users/bazinga/pharci-test";
 export pharci_target="/Users/bazinga/Desktop/pharci.phar";

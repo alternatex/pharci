@@ -8,7 +8,7 @@ Installation
 
 ### Prerequisites
 
-- MacOSX >= 10.8.*
+- MacOSX 10.8 or higher
 - PHP (http://php.net)
 - Python (http://www.python.org)
 
@@ -50,11 +50,13 @@ Roadmap
 - add test per object/event_type (including batch operations)
 - timed actions » based on insights gotten from batch operation tests - NO: by use w/ sense just notify glob(pattern) returned count vs recommended/"max"
 - ensure all settings used
-- add verbose option (todo: statistics impact o echoing)
+- add verbose option (todo: statistics impact o echoing » crazy..)
 - finalize event handling
 - multiple instances (handle ports)
 - ensure no multiprocess access on phar
+- compability / remove notifier dependency
 - zip & tar/gz streams support
+- sign archive \*
 - semver
 
 License

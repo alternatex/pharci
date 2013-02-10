@@ -1,0 +1,17 @@
+{
+  "FILE_CONTENTS_AUTOMATICALLY_GENERATED_BY_BAZINGA":"DO *NOT* EDIT THIS FILE DIRECTLY",
+  "ipaddress":"127.0.0.1",
+  "admin_email":"jimbo@localhost.com",
+  "updates_sleep":"20000ms",
+  "output":"\/Users\/bazinga\/Desktop\/output",
+  "updates_max":"100",
+  "exclude_pattern":"",
+  "signature":"3243kwnrlaw3uv4wilhrfh3ww3r\u00e434",
+  "default_stub":"",
+  "updates_interval":"10000ms",
+  "include_pattern":"*",
+  "port":"9991",
+  "source":"\/Users\/bazinga\/pharci-test",
+  "admin_name":"My Name Is Jimbo",
+  "target":"\/Users\/bazinga\/Desktop\/pharci.phar"
+}

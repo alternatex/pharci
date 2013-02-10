@@ -1,8 +1,21 @@
 #!/usr/local/bin/php -q
 <?php
 
-// flags
-$debug = false;
+// inbetween * / update phar archive (when it's quite for some time...) » make sure no interference » phwrite async or sync?
+// Phar::stopBuffering();
+// Phar::startBuffering();
+
+// SET TO IDLE IF MAX REACHED JUST CHECK AGAIN; IF QUIET; MATCH ALL; EXPORT
+// » kill process watch and rebuild / restart when ....
+// end.
+
+// SOCKET RECEIVES WATCH PID AS FIRST MESSAGE BY CREATING A FILE W/PID!!! » 2 kill it :/
+
+// tmpfile()
+// tmpfile()
+// tmpfile()
+// tmpfile()
+// tmpfile()
 
 // alias 
 use Pharci\Pharci as Pharci;
@@ -16,8 +29,9 @@ error_reporting(E_ALL);
 // hang around
 set_time_limit(0);
 
-// print input data
-$debug && ob_implicit_flush();
+// flags
+$debug      = false;
+$idle       = false;
 
 // extract script arguments
 $address    = $argv[1];
@@ -26,11 +40,17 @@ $phar       = $argv[3];
 $directory  = $argv[4];
 $ouput      = $argv[5];
 
+// print input data
+$debug && ob_implicit_flush();
+
 // initialize phar
 echo "initializing phar archive $phar from directory $directory".PHP_EOL;
 
 // access phar archive
 $phar = new \Phar($phar);
+
+// start.
+$phar->startBuffering();
 
 // inject reference to phar handler
 Pharci::SetPhar($phar);
@@ -39,15 +59,22 @@ Pharci::SetPhar($phar);
 Pharci::Import($directory, true);
 
 // ...
-false && Pharci::Export('/Users/bazinga/Desktop/outdir');
+Pharci::SetOutdir('/Users/bazinga/Desktop/outdir');
+
+// ...
+false && Pharci::Export();
+
+// ...
+$modificationsCount = 0;
+$modificationsMax   = 5;
+
+// ...
+$endTime   = time()+1;
 
 // start socket server
 echo "starting php socket server... listening on ${address}:${port}".PHP_EOL;
 
-// Pharci::ProcessEvent($args['watch'], $argv[1], $args['pattern'], $args['src'], $args['dest'], $args['event_type'], $args['object']);        
-
 // TODO: CUSTOM COMANDS TO INSPECT PHAR ARCHIVE: list, stats > own accessor @ server XXX
-
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
     echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . PHP_EOL;
 }
@@ -71,22 +98,45 @@ do {
     socket_write($msgsock, $msg, strlen($msg));
 
     do {
+        
         if (false === ($buf = socket_read($msgsock, 2048, PHP_NORMAL_READ))) {
             echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)) . PHP_EOL;
             break 2;
         }
+        
         if (!$buf = trim($buf)) {
             continue;
         }
+        
         if ($buf == 'quit') {
             break;
         }
-        if ($buf == 'shutdown') {            
+
+        if ($buf == 'shutdown') { 
+            $phar->stopBuffering();           
             socket_close($msgsock);
             break 2;
         }
 
+        echo `echo \$watch_pid`;
+        echo "watch pid:".$_SERVER['watch_pid']."\n";
+
         $args = $item = json_decode($buf, true);
+
+        $modificationsCount++;
+
+        if($modificationsCount>=$modificationsMax) {
+
+            die("TOO MUCH MODIFICATIONS!!! $modificationsCount");
+        } else {
+            
+            echo("OK $modificationsCount - $startTime - $endTime - ".($endTime-$startTime));
+        }
+
+        if($endTime<time()) {
+            $modificationsCount=0;
+            $endTime = time()+1;         
+        }
 
         Pharci::ProcessEvent($args['watch'], $argv[3], $args['src'], "*", $args['dest'], $args['event_type'], $args['object']);
 
@@ -97,6 +147,7 @@ do {
 
     // ...
     socket_close($msgsock);
+
 } while (true);
 
 // cleanup

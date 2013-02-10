@@ -8,6 +8,9 @@ bazinga_custom_json="settings.json"
 
 # bazinga configuration
 function bazinga_gather(){
+	bazinga_input "admin_name" "admin_name"
+	bazinga_input "admin_email" "admin_email"		
+	bazinga_input "signature" "signature"	
 	bazinga_input "ipaddress" "ipaddress"
 	bazinga_input "port" "port"
 	bazinga_input "output" "output"
@@ -18,7 +21,7 @@ function bazinga_gather(){
 	bazinga_input "updates_interval" "updates_interval"	
 	bazinga_input "updates_max" "updates_max"		
 	bazinga_input "updates_sleep" "updates_sleep"	
-	bazinga_input "default_stub" "default_stub"	
+	bazinga_input "default_stub" "default_stub"		
 }
 
 # ...

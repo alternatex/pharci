@@ -62,6 +62,7 @@ class Pharci {
   
   // limits
   const LIMIT_UPDATES_PTU     = 5; # updates per time unit (wich is=XXX?!)
+  const LIMIT_UPDATES_TU      = 1;
 
   // messages
   const MESSAGE_CAP_REACHED = '"cap limit reached. full rebuild. wait a lil until it\'s more quiet"';
@@ -79,6 +80,12 @@ class Pharci {
   private static $initialized = false;
   private static $logger = null;
   private static $phar = null;
+  private static $modifications = 0;
+  private static $outdir = '.';
+
+  public static function SetOutdir($outdir){
+    self::$outdir = $outdir;
+  }
 
   public static function SetPhar(&$phar){
     self::$phar=$phar;
@@ -86,11 +93,19 @@ class Pharci {
   
   // process filesystem event
   public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){    
+    // abstract modification/event count
+    self::$modifications++;
 
     // phar-fs
     $phar_source = str_replace($watch, '', $src);
     $phar_target = str_replace($watch, '', $dest);
     
+    if(self::$modifications%100==0) {
+      self::$phar->stopBuffering();
+      //self::Export();
+      self::$phar->startBuffering();
+    }
+
     // skip custom
     if(strpos($phar_source, self::FILENAME_QUEUE_PREFIX)!==false || basename($phar_source)==self::FILENAME_SETTINGS || basename($phar_source)=='.DS_Store')
       return;
@@ -103,6 +118,10 @@ class Pharci {
         array('phar' => array('compress' => \Phar::GZ)),
         array('metadata' => array('user' => 'alternatex'))
       );
+
+      //1. validate object / event_type
+      //$delegate=ucfirst($object).ucfirst($event_type);
+      //self::$delegate($src, $dest);
 
     /*
     TODO:
@@ -119,9 +138,14 @@ class Pharci {
       // read/write
       case self::EVENT_TYPE_CREATED:
       case self::EVENT_TYPE_MODIFIED:
-
+      
         // only handle files
         if($object==self::EVENT_OBJECT_FILE) {
+
+          self::FileCreated($src);
+          $src_contents = file_get_contents($src);        
+          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_source, $src_contents);
+          break;
           
           // get fs contents
           $src_contents = file_get_contents($src);        
@@ -138,6 +162,9 @@ class Pharci {
 
         // is file?
         if($object==self::EVENT_OBJECT_FILE) {
+
+          self::FileMoved($src);
+          break;
           
           // get fs contents
           $src_contents = file_get_contents($dest);
@@ -162,6 +189,9 @@ class Pharci {
       // cleanup
       case self::EVENT_TYPE_DELETED:
 
+        self::FileDeleted($src);
+        break;
+
         // is file?
         if($object==self::EVENT_OBJECT_FILE) {
 
@@ -180,23 +210,27 @@ class Pharci {
   }
 
   // ...
-  public static function FileCreated(){
-
+  public static function FileCreated($filepath){
+    //echo __FUNCTION__." $filepath";
+    self::$phar->addFile($filepath);
   }
 
   // ...
-  public static function FileModified(){
-
+  public static function FileModified($filepath){
+    //echo __FUNCTION__." $filepath";
+    #self::FileCreated($filepath);
   }
 
   // ...
   public static function FileMoved(){
-
+    //echo __FUNCTION__."$filepath";
   }
 
   // ...
-  public static function FileDeleted(){
-
+  public static function FileDeleted($source, $destination){
+    //echo __FUNCTION__."$source $destination";
+    self::$phar->addFile($filepath);
+    self::$phar->delete($filepath);
   }
 
   // ...
@@ -216,7 +250,7 @@ class Pharci {
 
   // ...
   public static function DirectoryDeleted(){
-
+    self::$phar->delete($filepath);
   }  
 
   // helper - extract $src from archive
@@ -240,7 +274,8 @@ class Pharci {
   }
 
   // helper - phar export
-  public static function Export($directory){
+  public static function Export($directory=''){
+    if($directory=='') $directory = self::$outdir;
     self::$phar->extractTo($directory, null, true);
   }
 

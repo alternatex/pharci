@@ -10,7 +10,7 @@ $PHARCI/src/Pharci/socket.php "${pharci_ipaddress}" "${pharci_port}" "${pharci_t
 socket_pid=$! && echo "socket server running #$socket_pid";
 
 # wait a lil for server to startup
-sleep 3s
+sleep 10s
 
 # fetch file descriptor
 exec 3<>"/dev/tcp/${pharci_ipaddress}/${pharci_port}"
