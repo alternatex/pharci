@@ -119,16 +119,21 @@ class Pharci {
         array('metadata' => array('user' => 'alternatex'))
       );
 
-      //1. validate object / event_type
-      //$delegate=ucfirst($object).ucfirst($event_type);
-      //self::$delegate($src, $dest);
+    // 1. validate object / event_type
+    // ...
+
+    // determine call-delegate
+    $delegate=ucfirst($object).ucfirst($event_type);
+
+    // check delegate's existance
+    if(method_exists(self, $delegate)) {
+
+      // exec delegate
+      self::$delegate($src, $dest);
+    }
 
     /*
     TODO:
-    - replace switch statement:
-      1. validate object / event_type
-      2. $delegate=ucfirst($object).ucfirst($event_type);
-      3. self::$delegate($src, $dest);
     - implement additional phar class actions » empty dirs and such. not only files *
     */
 
