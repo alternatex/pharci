@@ -20,6 +20,23 @@
       "url": "https://raw.github.com/alternatex/pharci/master/LICENSE"
     }
   ],
+  "scripts": {
+
+    "prestart":     "",
+    "start":        "",
+    "poststart":    "",
+    
+    "preinstall":   "",
+    "postinstall":  "",
+    
+    "pretest":      "",
+    "test":         "",
+    "posttest":     "",
+
+    "predeploy":    "",
+    "postdeploy":   ""
+    
+  },    
   "engines": {}, 
   "dependencies": {},
   "volo": {

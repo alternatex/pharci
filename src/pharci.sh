@@ -24,9 +24,9 @@ watchmedo shell-command \
     --command='echo "{ \"watch\": \"${pharci_source}\",\"watch_pid\": \"${pharci_watch_pid}\",\"phar\": \"${pharci_target}\", \"src\": \"${watch_src_path}\", \"dest\": \"${watch_dest_path}\", \"event_type\": \"${watch_event_type}\", \"object\": \"${watch_object}\"}";' "$pharci_source" >&3 &
 
 # ...
-export watch_pid=$! 
+export watch2_pid=$! 
 
-echo "watch running #$watch_pid";
+echo "watch running #$watch2_pid";
 
 # shutdown server
 #__shutdown

@@ -3,8 +3,11 @@
 # TODO: think.
 descriptor=3
 
+# rewrite: all-in-one » TODO: think.
+pharci_action="serve"
+
 # start php socket server
-$PHARCI/src/Pharci/socket.php "${pharci_ipaddress}" "${pharci_port}" "${pharci_target}" "${pharci_source}"  "${pharci_output}" &
+$PHARCI/src/Pharci/pharci.php "${pharci_action}" "${pharci_ipaddress}" "${pharci_port}" "${pharci_target}" "${pharci_source}"  "${pharci_output}" &
 
 # store socket pid & shout it out loud
 socket_pid=$! && echo "socket server running #$socket_pid";

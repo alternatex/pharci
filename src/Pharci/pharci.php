@@ -1,4 +1,5 @@
 <?php namespace Pharci;
+
 /*!
 * ------------------------------------------------------------------               
 * Pharci
@@ -14,6 +15,10 @@
 * ------------------------------------------------------------------ 
 */
 
+// ------------------------------------------------------
+// - prerequisites check (really, everytime? TODO: solve)
+// ------------------------------------------------------
+
 // prerequisites - check phar write support
 if(!\Phar::canWrite()):
 
@@ -23,8 +28,37 @@ if(!\Phar::canWrite()):
       "Ensure php.ini includes phar.readonly=Off to enable creation and modification of phar archives using the phar stream or phar object's write support.");
 endif;
 
-// initialize
-if(!defined('PHARCI_INITIALIZED') && define('PHARCI_INITIALIZED', true)):
+// ------------------------------------------------------
+// - initialize
+// ------------------------------------------------------
+
+// include configuration » read $settings and extract contents into global namespace
+if(file_exists(Pharci\Pharci::FILENAME_SETTINGS)) extract(json_decode(file_get_contents(Pharci\Pharci::FILENAME_SETTINGS),true));
+
+// ------------------------------------------------------
+// - process
+// ------------------------------------------------------
+
+// determine execution mode » start socket server or process input
+if(($pharci_action = $argv[1])===MODE_SOCKETSERVER):
+
+  // helpers
+  $argv_index = 2;
+
+  // ...
+  $address    = $argv[$argv_index++];
+  $port       = $argv[$argv_index++];
+  $phar       = $argv[$argv_index++];
+  $directory  = $argv[$argv_index++];
+  $ouput      = $argv[$argv_index++];  
+
+  // ...
+  Pharci::StartServer($address, $port, $phar, $directory, $output);
+
+  // ...
+  die('TILT!');
+
+endif;
 
 // core
 class Pharci {
@@ -73,6 +107,7 @@ class Pharci {
   const PROC_SYNC_FS    = true;
 
   // miscellaneous  
+  const MODE_SOCKETSERVER = 'serve';
   const LOGGER_TRESHOLD = 'debug';
   const PROTOCOL = 'phar://';
 
@@ -93,6 +128,7 @@ class Pharci {
   
   // process filesystem event
   public static function ProcessEvent($watch, $phar, $src, $pattern=self::INCLUDE_PATTERN, $dest, $event_type, $object, $log=self::LOGGER_TRESHOLD){    
+    
     // abstract modification/event count
     self::$modifications++;
 
@@ -119,122 +155,43 @@ class Pharci {
         array('metadata' => array('user' => 'alternatex'))
       );
 
-    // 1. validate object / event_type
-    // ...
-
     // determine call-delegate
     $delegate=ucfirst($object).ucfirst($event_type);
 
     // check delegate's existance
     if(method_exists(self, $delegate)) {
 
+      // TODO: finalize implementation *
+      echo "AUTOM XXXX";
+
       // exec delegate
       self::$delegate($src, $dest);
-    }
-
-    /*
-    TODO:
-    - implement additional phar class actions » empty dirs and such. not only files *
-    */
-
-    // handle by type
-    switch($event_type){
-
-      // read/write
-      case self::EVENT_TYPE_CREATED:
-      case self::EVENT_TYPE_MODIFIED:
-      
-        // only handle files
-        if($object==self::EVENT_OBJECT_FILE) {
-
-          self::FileCreated($src);
-          $src_contents = file_get_contents($src);        
-          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_source, $src_contents);
-          break;
-          
-          // get fs contents
-          $src_contents = file_get_contents($src);        
-
-          // update phar contents 
-          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_source, $src_contents); //, 0, $context);          
-          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_source, $src_contents);
-        }
-
-        break;
-      
-      // file move event -> copy / cleanup 
-      case self::EVENT_TYPE_MOVED:
-
-        // is file?
-        if($object==self::EVENT_OBJECT_FILE) {
-
-          self::FileMoved($src);
-          break;
-          
-          // get fs contents
-          $src_contents = file_get_contents($dest);
-          
-          // update phar contents 
-          self::PROC_SYNC_PHAR && file_put_contents(self::PROTOCOL.$phar.$phar_target, $src_contents);//, 0, $context);
-          self::PROC_SYNC_FS && file_put_contents(self::FILENAME_OUTDIRECTORY.$phar_target, $src_contents);
-
-          // cleanup on file move
-          self::PROC_SYNC_PHAR && (file_exists(self::PROTOCOL.$phar.$phar_source)) && unlink(self::PROTOCOL.$phar.$phar_source);
-          self::PROC_SYNC_FS && (file_exists(self::FILENAME_OUTDIRECTORY.$phar_source)) && unlink(self::FILENAME_OUTDIRECTORY.$phar_source);          
-
-        // is folder?
-        } elseif($object==self::EVENT_OBJECT_FOLDER) {
-          
-          // ...
-          //_rmdir(self::PROTOCOL.$phar.$phar_source);
-          _rmdir(self::FILENAME_OUTDIRECTORY.$phar_source);                    
-        }       
-        break;
-
-      // cleanup
-      case self::EVENT_TYPE_DELETED:
-
-        self::FileDeleted($src);
-        break;
-
-        // is file?
-        if($object==self::EVENT_OBJECT_FILE) {
-
-          // explicit removal (might have been handled already by event_type `moved`)
-          self::PROC_SYNC_PHAR && (file_exists(self::PROTOCOL.$phar.$phar_source)) && unlink(self::PROTOCOL.$phar.$phar_source);
-          self::PROC_SYNC_FS  && (file_exists(self::FILENAME_OUTDIRECTORY.$phar_source)) && unlink(self::FILENAME_OUTDIRECTORY.$phar_source);
-          
-        } elseif($object==self::EVENT_OBJECT_FOLDER) {
-
-          // event also fired per file on directory removal - handle only these events.
-          false && _rmdir(self::PROTOCOL.$phar.$phar_source);
-        }       
-      default:
-        break;
     }
   }
 
   // ...
   public static function FileCreated($filepath){
-    //echo __FUNCTION__." $filepath";
+    echo __FUNCTION__." $filepath";
     self::$phar->addFile($filepath);
   }
 
   // ...
   public static function FileModified($filepath){
-    //echo __FUNCTION__." $filepath";
-    #self::FileCreated($filepath);
+    echo __FUNCTION__." $filepath";
+    self::FileCreated($filepath);
   }
 
   // ...
-  public static function FileMoved(){
-    //echo __FUNCTION__."$filepath";
+  public static function FileMoved($source, $destination){
+    echo __FUNCTION__."$source $destination";
+    self::$phar->addFile($destination);
+    self::$phar->delete($source);
+   
   }
 
   // ...
-  public static function FileDeleted($source, $destination){
-    //echo __FUNCTION__."$source $destination";
-    self::$phar->addFile($filepath);
+  public static function FileDeleted($filepath){
+    echo __FUNCTION__."$filepath";
     self::$phar->delete($filepath);
   }
 
@@ -284,32 +241,156 @@ class Pharci {
     self::$phar->extractTo($directory, null, true);
   }
 
-}
+  // ------------------------------------------------------
+  // - helpers - socket server
+  // ------------------------------------------------------
 
-// initialize - end
-endif;
+  public static function StartServer($address, $port, $phar, $directory, $output, $debug=false, $idle=false){
 
-// include configuration
-require_once(dirname(__FILE__).'/settings.php');
+    // shout out loud
+    error_reporting(E_ALL);
 
-// ------------------------------------------------------
-// - helpers 
-// ------------------------------------------------------
+    // hang around
+    set_time_limit(0);
 
-// fs delete
-function _rmdir($x){  
-  try {
-    if(!file_exists($x)) return false;
-    $it = new \RecursiveDirectoryIterator($x);
-    $files = new \RecursiveIteratorIterator($it,
-                 \RecursiveIteratorIterator::CHILD_FIRST);
-    foreach($files as $file){
-      if ($file->isDir()){
-          if(file_exists($file->getRealPath())) rmdir($file->getRealPath());
-      } else {
-          if(file_exists($file->getRealPath()))
-            unlink($file->getRealPath());
-      }
+    // print input data
+    $debug && ob_implicit_flush();
+
+    // initialize phar
+    echo "initializing phar archive $phar from directory $directory".PHP_EOL;
+
+    // access phar archive
+    $phar = new \Phar($phar);
+
+    // start.
+    $phar->startBuffering();
+
+    // inject reference to phar handler
+    Pharci::SetPhar($phar);
+
+    // import from directory
+    Pharci::Import($directory, true);
+
+    // ...
+    Pharci::SetOutdir('/Users/bazinga/Desktop/outdir');
+
+    // ...
+    false && Pharci::Export();
+
+    // ...
+    $modificationsCount = 0;
+    $modificationsMax   = 500000;
+
+    // ...
+    $endTime   = time()+1;
+
+    // start socket server
+    echo "starting php socket server... listening on ${address}:${port}".PHP_EOL;
+
+    // TODO: CUSTOM COMANDS TO INSPECT PHAR ARCHIVE: list, stats > own accessor @ server XXX
+    if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
+        echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . PHP_EOL;
     }
-  } catch(Exception $ex) {}
-}
+
+    if (socket_bind($sock, $address, $port) === false) {
+        echo "socket_bind() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
+    }
+
+    if (socket_listen($sock, 5) === false) {
+        echo "socket_listen() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
+    }
+
+    do {
+        if (($msgsock = socket_accept($sock)) === false) {
+            echo "socket_accept() failed: reason: " . socket_strerror(socket_last_error($sock)) . PHP_EOL;
+            break;
+        }
+        /* Send instructions. */
+        $msg = "\nWelcome to the PHP Test Server. \n" .
+            "To quit, type 'quit'. To shut down the server type 'shutdown'.\n";
+        socket_write($msgsock, $msg, strlen($msg));
+
+        do {
+            
+            if (false === ($buf = socket_read($msgsock, 2048, PHP_NORMAL_READ))) {
+                echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($msgsock)) . PHP_EOL;
+                break 2;
+            }
+            
+            if (!$buf = trim($buf)) {
+                continue;
+            }
+            
+            if ($buf == 'quit') {
+                break;
+            }
+
+            if ($buf == 'shutdown') { 
+                $phar->stopBuffering();           
+                socket_close($msgsock);
+                break 2;
+            }
+
+            echo `echo \$watch_pid`;
+            echo "watch pid:".$_SERVER['watch_pid']."\n";
+
+            $args = $item = json_decode($buf, true);
+
+            $modificationsCount++;
+
+            if($modificationsCount>=$modificationsMax) {
+
+                die("TOO MUCH MODIFICATIONS!!! $modificationsCount");
+            } else {
+                
+                echo("OK $modificationsCount - $startTime - $endTime - ".($endTime-$startTime));
+            }
+
+            if($endTime<time()) {
+                $modificationsCount=0;
+                $endTime = time()+1;         
+            }
+
+            Pharci::ProcessEvent($args['watch'], $argv[3], $args['src'], "*", $args['dest'], $args['event_type'], $args['object']);
+
+            //echo "$buf\n";
+            $debug && socket_write($msgsock, $talkback, strlen($talkback));
+
+        } while (true);
+
+        // ...
+        socket_close($msgsock);
+
+    } while (true);
+
+    // cleanup
+    socket_close($sock);
+  }
+
+  // ...
+  public static function StopServer(){
+
+    // ...
+  }
+
+  // ------------------------------------------------------
+  // - helpers - file system operations
+  // ------------------------------------------------------
+
+  public static function RemoveDirectory($path){
+    try {
+      if(!file_exists($path)) return false;
+      $it = new \RecursiveDirectoryIterator($path);
+      $files = new \RecursiveIteratorIterator($it,
+                   \RecursiveIteratorIterator::CHILD_FIRST);
+      foreach($files as $file){
+        if ($file->isDir()){
+            if(file_exists($file->getRealPath())) rmdir($file->getRealPath());
+        } else {
+            if(file_exists($file->getRealPath()))
+              unlink($file->getRealPath());
+        }
+      }
+    } catch(Exception $ex) {}    
+  }
+} // class-def end
